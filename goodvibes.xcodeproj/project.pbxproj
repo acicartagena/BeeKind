@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		35451A9725CF994200CA43A2 /* GoodvibesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35451A9625CF994200CA43A2 /* GoodvibesApp.swift */; };
+		35451A9725CF994200CA43A2 /* GoodVibesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35451A9625CF994200CA43A2 /* GoodVibesApp.swift */; };
 		35451A9925CF994200CA43A2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35451A9825CF994200CA43A2 /* ContentView.swift */; };
 		35451A9B25CF994200CA43A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35451A9A25CF994200CA43A2 /* Assets.xcassets */; };
 		35451A9E25CF994200CA43A2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35451A9D25CF994200CA43A2 /* Preview Assets.xcassets */; };
@@ -40,7 +40,7 @@
 
 /* Begin PBXFileReference section */
 		35451A9325CF994200CA43A2 /* goodvibes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = goodvibes.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		35451A9625CF994200CA43A2 /* GoodvibesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodvibesApp.swift; sourceTree = "<group>"; };
+		35451A9625CF994200CA43A2 /* GoodVibesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodVibesApp.swift; sourceTree = "<group>"; };
 		35451A9825CF994200CA43A2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		35451A9A25CF994200CA43A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35451A9D25CF994200CA43A2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 		35451A9525CF994200CA43A2 /* goodvibes */ = {
 			isa = PBXGroup;
 			children = (
-				35451A9625CF994200CA43A2 /* GoodvibesApp.swift */,
+				35451A9625CF994200CA43A2 /* GoodVibesApp.swift */,
 				35451A9825CF994200CA43A2 /* ContentView.swift */,
 				3559D8A825CFA687006493F3 /* AddItemView.swift */,
 				3559D8AD25CFB0DB006493F3 /* Gradient.swift */,
@@ -292,7 +292,7 @@
 				3559D89925CFA3D2006493F3 /* ItemLocal.swift in Sources */,
 				3559D8A425CFA56C006493F3 /* LocalStorage.swift in Sources */,
 				35451A9925CF994200CA43A2 /* ContentView.swift in Sources */,
-				35451A9725CF994200CA43A2 /* GoodvibesApp.swift in Sources */,
+				35451A9725CF994200CA43A2 /* GoodVibesApp.swift in Sources */,
 				3559D8AE25CFB0DB006493F3 /* Gradient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

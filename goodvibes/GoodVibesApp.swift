@@ -3,8 +3,12 @@
 import SwiftUI
 
 @main
-struct goodvibesApp: App {
+struct GoodVibesApp: App {
     let persistenceController = PersistenceController.shared
+
+    init() {
+        UITextView.appearance().backgroundColor = .clear
+    }
 
     var body: some Scene {
         WindowGroup {

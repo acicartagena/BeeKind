@@ -11,6 +11,8 @@ struct AddItemView: View {
         availableGradients[currentGradientIndex].gradient
     }
 
+    @State var itemText: String = ""
+
     var body: some View {
         ZStack {
             currentGradient
@@ -18,7 +20,22 @@ struct AddItemView: View {
             VStack {
                 Button("", action: changeCurrentGradient)
                     .buttonStyle(CircularButtonStyle(currentGradient: currentGradient))
-                Text("add item")
+                    .padding()
+                Text("I'm grateful for")
+                    .foregroundColor(.white)
+                    .font(.largeTitle)
+                    .bold()
+                    .italic()
+                    .shadow(radius: 0.5)
+                    .padding()
+                Spacer()
+                TextEditor(text: $itemText)
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+                    .font(.largeTitle)
+                    .shadow(radius: 0.5)
+                    .padding()
+                Spacer()
             }
         }
     }
