@@ -19,7 +19,7 @@ struct AddItemView: View {
                 .edgesIgnoringSafeArea(.all)
             VStack {
                 Button("", action: changeCurrentGradient)
-                    .buttonStyle(CircularButtonStyle(currentGradient: currentGradient))
+                    .buttonStyle(CircularGradientButtonStyle(currentGradient: currentGradient))
                     .padding()
                 Text("I'm grateful for")
                     .foregroundColor(.white)
@@ -50,7 +50,7 @@ struct AddItemView: View {
     }
 }
 
-struct CircularButtonStyle: ButtonStyle {
+struct CircularGradientButtonStyle: ButtonStyle {
     let currentGradient: LinearGradient
 
     func makeBody(configuration: Self.Configuration) -> some View {

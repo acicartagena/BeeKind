@@ -1,18 +1,15 @@
-//Copyright © 2021 acicartagena. All rights reserved.
+// 
 
 import SwiftUI
 
 @main
-struct GoodVibesApp: App {
+struct BeeKindApp: App {
     let persistenceController = PersistenceController.shared
-
-    init() {
-        UITextView.appearance().backgroundColor = .clear
-    }
 
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }
