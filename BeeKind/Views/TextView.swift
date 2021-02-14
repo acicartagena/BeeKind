@@ -10,7 +10,11 @@ struct TextView: UIViewRepresentable {
     func makeUIView(context: Self.Context) -> UITextView {
         let uiView =  UITextView()
         uiView.textColor = UIColor.white
-        uiView.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        uiView.backgroundColor = UIColor.clear
+        uiView.font = UIFont.preferredFont(forTextStyle: .title2)
+        uiView.clipsToBounds = true
+        uiView.layer.masksToBounds = true
+        uiView.layer.cornerRadius = 16.0
         return uiView
     }
 

@@ -113,14 +113,10 @@
 			children = (
 				3545B83C25D76388000EADBA /* BeeKindApp.swift */,
 				3545B83E25D76388000EADBA /* ContentView.swift */,
+				3551063525D8F5CF006C3C65 /* Views */,
 				3545B86F25D763AE000EADBA /* AddItemView.swift */,
-				3545B87725D763CE000EADBA /* Gradient.swift */,
 				3545B84025D76389000EADBA /* Assets.xcassets */,
-				3545B84525D76389000EADBA /* Persistence.swift */,
-				3545B87F25D763FC000EADBA /* ItemLocal.swift */,
-				3545B88425D7640F000EADBA /* LocalStorage.swift */,
-				3551062A25D8F527006C3C65 /* Hexagon.swift */,
-				3551062B25D8F527006C3C65 /* TextView.swift */,
+				3551063125D8F5C2006C3C65 /* LocalStorage */,
 				3545B84A25D76389000EADBA /* Info.plist */,
 				3545B84725D76389000EADBA /* BeeKind.xcdatamodeld */,
 				3545B84225D76389000EADBA /* Preview Content */,
@@ -152,6 +148,26 @@
 				3545B86025D76389000EADBA /* Info.plist */,
 			);
 			path = BeeKindUITests;
+			sourceTree = "<group>";
+		};
+		3551063125D8F5C2006C3C65 /* LocalStorage */ = {
+			isa = PBXGroup;
+			children = (
+				3545B84525D76389000EADBA /* Persistence.swift */,
+				3545B87F25D763FC000EADBA /* ItemLocal.swift */,
+				3545B88425D7640F000EADBA /* LocalStorage.swift */,
+			);
+			path = LocalStorage;
+			sourceTree = "<group>";
+		};
+		3551063525D8F5CF006C3C65 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3551062A25D8F527006C3C65 /* Hexagon.swift */,
+				3551062B25D8F527006C3C65 /* TextView.swift */,
+				3545B87725D763CE000EADBA /* Gradient.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
