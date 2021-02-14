@@ -11,7 +11,7 @@ struct ContentView: View {
         Button("Add item") {
             self.isAddScreenPresented.toggle()
         }.sheet(isPresented: $isAddScreenPresented) {
-            AddItemView()
+            AddItemView(date: Date())
         }
     }
 
