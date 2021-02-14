@@ -29,8 +29,19 @@ struct AddItemView: View {
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 16.0).fill(Color.white.opacity(0.2)))
                     .padding()
-                Button("", action: changeCurrentGradient)
-                    .buttonStyle(CircularGradientButtonStyle(currentGradient: currentGradient))
+                HStack {
+                    Button("", action: changeCurrentGradient)
+                        .buttonStyle(CircularGradientButtonStyle(currentGradient: currentGradient))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
+                    Button("Save") {
+                        print("Save")
+                    }
+                    .foregroundColor(Color.gray)
+                    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                    .background(Color.white)
+                    .cornerRadius(16)
+                    .font(.title3)
+                }
                 Spacer()
             }
         }

@@ -11,7 +11,7 @@ struct CircularGradientButtonStyle: ButtonStyle {
             .label
             .frame(width: 50, height: 50)
             .background(currentGradient)
-            .overlay(Circle().stroke(Color.white, lineWidth: 5))
-            .clipShape(Circle())
+            .overlay(Hexagon().stroke(Color.white, lineWidth: 5))
+            .clipShape(Hexagon())
     }
 }
