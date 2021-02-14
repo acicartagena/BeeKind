@@ -6,6 +6,7 @@ import SwiftUI
 
 struct TextView: UIViewRepresentable {
     @Binding var text: String
+    var isFirstResponder: Bool = false
 
     func makeUIView(context: Self.Context) -> UITextView {
         let uiView =  UITextView()
@@ -19,6 +20,9 @@ struct TextView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UITextView, context: Self.Context) {
+        if !isFirstResponder {
+            uiView.becomeFirstResponder()
+        }
         uiView.text = text
     }
 

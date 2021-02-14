@@ -21,6 +21,7 @@
 		3545B88525D7640F000EADBA /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B88425D7640F000EADBA /* LocalStorage.swift */; };
 		3551062C25D8F527006C3C65 /* Hexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551062A25D8F527006C3C65 /* Hexagon.swift */; };
 		3551062D25D8F527006C3C65 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551062B25D8F527006C3C65 /* TextView.swift */; };
+		3551063A25D8F8CD006C3C65 /* CircularGradientButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551063925D8F8CD006C3C65 /* CircularGradientButtonStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		3545B88425D7640F000EADBA /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		3551062A25D8F527006C3C65 /* Hexagon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hexagon.swift; sourceTree = "<group>"; };
 		3551062B25D8F527006C3C65 /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
+		3551063925D8F8CD006C3C65 /* CircularGradientButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CircularGradientButtonStyle.swift; path = BeeKind/CircularGradientButtonStyle.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 				3551062A25D8F527006C3C65 /* Hexagon.swift */,
 				3551062B25D8F527006C3C65 /* TextView.swift */,
 				3545B87725D763CE000EADBA /* Gradient.swift */,
+				3551063925D8F8CD006C3C65 /* CircularGradientButtonStyle.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1230;
+				ORGANIZATIONNAME = acicartgena;
 				TargetAttributes = {
 					3545B83825D76388000EADBA = {
 						CreatedOnToolsVersion = 12.3;
@@ -299,6 +303,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3551063A25D8F8CD006C3C65 /* CircularGradientButtonStyle.swift in Sources */,
 				3545B84625D76389000EADBA /* Persistence.swift in Sources */,
 				3545B83F25D76388000EADBA /* ContentView.swift in Sources */,
 				3551062C25D8F527006C3C65 /* Hexagon.swift in Sources */,
