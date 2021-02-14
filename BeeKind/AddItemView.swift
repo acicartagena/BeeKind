@@ -1,4 +1,4 @@
-//Copyright © 2021 acicartagena. All rights reserved.
+//Copyright © 2021 acicartagena. All rights reserved.// Copyright © 2021 acicartagena. All rights reserved.
 
 import Foundation
 import SwiftUI
@@ -18,22 +18,17 @@ struct AddItemView: View {
             currentGradient
                 .edgesIgnoringSafeArea(.all)
             VStack {
-                Button("", action: changeCurrentGradient)
-                    .buttonStyle(CircularGradientButtonStyle(currentGradient: currentGradient))
-                    .padding()
                 Text("I'm grateful for")
                     .foregroundColor(.white)
                     .font(.largeTitle)
                     .bold()
                     .italic()
-                    .shadow(radius: 0.5)
+                    .shadow(radius: 0.8)
                     .padding()
-                Spacer()
-                TextEditor(text: $itemText)
-                    .font(.largeTitle)
-                    .foregroundColor(.white)
-                    .font(.largeTitle)
-                    .shadow(radius: 0.5)
+                TextView(text: $itemText)
+                    .background(Color.white.opacity(0.2))
+                Button("", action: changeCurrentGradient)
+                    .buttonStyle(CircularGradientButtonStyle(currentGradient: currentGradient))
                     .padding()
                 Spacer()
             }
