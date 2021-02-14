@@ -9,6 +9,7 @@ struct BeeKindApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(LocalStorage())
         }
     }
 }

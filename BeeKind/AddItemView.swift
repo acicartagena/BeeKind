@@ -18,14 +18,22 @@ struct AddItemView: View {
 
     let date: Date
     let dateString: String
+    let localStoring: LocalStoring
 
-    init(date: Date) {
+    @State var error: String?
+    @Binding var showError: Bool
+    @Binding var isPresented: Bool
+
+    init(date: Date, localStoring: LocalStoring, isPresented: Binding<Bool>) {
         self.date = date
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
         let string = dateFormatter.string(from: date)
         print("date: \(string)")
         self.dateString = string
+        self.localStoring = localStoring
+        _isPresented = isPresented
+        _showError = .constant(false)
     }
 
     var body: some View {
@@ -60,7 +68,7 @@ struct AddItemView: View {
                         HStack {
                             Spacer()
                             Button("Save") {
-                                print("Save")
+                                save()
                             }
                             .foregroundColor(Color.gray)
                             .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
@@ -73,10 +81,21 @@ struct AddItemView: View {
                 }
                 .padding()
                 Button("", action: changeCurrentGradient)
-                    .buttonStyle(CircularGradientButtonStyle(currentGradient: currentGradient))
+                    .buttonStyle(HexagonGradientButtonStyle(currentGradient: currentGradient))
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
                 Spacer()
             }
+        }.alert(isPresented: $showError, content: {
+            return Alert(title: Text(error ?? "Something went wrong"), dismissButton: .default(Text("okies")))
+        })
+    }
+
+    func save() {
+        switch localStoring.saveItem(text: itemText, on: date) {
+        case .success: isPresented = false
+        case .failure(let saveError):
+            showError = true
+            error = saveError.localizedDescription
         }
     }
 
@@ -92,6 +111,6 @@ struct AddItemView: View {
 
 struct AddItemView_Previews: PreviewProvider {
     static var previews: some View {
-        AddItemView(date: Date())
+        AddItemView(date: Date(), localStoring: LocalStorage.preview, isPresented: .constant(true))
     }
 }

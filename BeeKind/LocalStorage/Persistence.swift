@@ -5,13 +5,13 @@ import CoreData
 struct PersistenceController {
     static let shared = PersistenceController()
 
-    private let container: NSPersistentCloudKitContainer
+    private let container: NSPersistentContainer
     var viewContext: NSManagedObjectContext {
         return container.viewContext
     }
 
     init(inMemory: Bool = false) {
-        container = NSPersistentCloudKitContainer(name: "BeeKind")
+        container = NSPersistentContainer(name: "BeeKind")
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
@@ -40,5 +40,22 @@ extension PersistenceController {
         }
         return result
     }()
+}
+
+extension NSManagedObjectContext {
+    func performSave() throws {
+        guard hasChanges else { return }
+        var saveError: Error?
+        perform { [self] in
+            do {
+                try self.save()
+            } catch {
+                saveError = error
+            }
+        }
+        if let error = saveError {
+            throw error
+        }
+    }
 
 }

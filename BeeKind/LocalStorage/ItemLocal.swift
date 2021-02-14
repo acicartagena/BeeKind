@@ -3,6 +3,7 @@
 import Foundation
 import CoreData
 
+@objc(ItemLocal)
 class ItemLocal: NSManagedObject {
     @nonobjc public class func createFetchRequest() -> NSFetchRequest<ItemLocal> {
         return NSFetchRequest<ItemLocal>(entityName: "ItemLocal")
@@ -22,7 +23,10 @@ extension ItemLocal {
 }
 
 extension NSManagedObjectContext {
-    func createItemLocal(text: String, created: Date) -> ItemLocal {
-        ItemLocal.create(context: self, text: text, created: created)
+    @discardableResult
+    func createItemLocal(text: String, created: Date) throws -> ItemLocal {
+        let item = ItemLocal.create(context: self, text: text, created: created)
+        try performSave()
+        return item
     }
 }
