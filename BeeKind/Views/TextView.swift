@@ -6,6 +6,7 @@ import SwiftUI
 
 struct TextView: UIViewRepresentable {
     @Binding var text: String
+    var maxCharacterCount: Int?
     var isFirstResponder: Bool = false
 
     func makeUIView(context: Self.Context) -> UITextView {
@@ -16,25 +17,40 @@ struct TextView: UIViewRepresentable {
         uiView.clipsToBounds = true
         uiView.layer.masksToBounds = true
         uiView.layer.cornerRadius = 16.0
+        uiView.delegate = context.coordinator
         return uiView
     }
 
     func updateUIView(_ uiView: UITextView, context: Self.Context) {
-        if !isFirstResponder {
+        if !isFirstResponder && !context.coordinator.didBecomeFirstResponder {
             uiView.becomeFirstResponder()
+            context.coordinator.didBecomeFirstResponder = true
         }
         uiView.text = text
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+        Coordinator(self, maxCharacterCount: maxCharacterCount)
     }
 
     class Coordinator: NSObject, UITextViewDelegate {
         var control: TextView
+        var didBecomeFirstResponder = false
+        var maxCharacterCount: Int?
 
-        init(_ control: TextView) {
+        init(_ control: TextView, maxCharacterCount: Int?) {
             self.control = control
+            self.maxCharacterCount = maxCharacterCount
+        }
+
+        func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+            guard let maxCharacterCount = self.maxCharacterCount else { return true }
+            let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+            return newText.count <= maxCharacterCount
+        }
+
+        func textViewDidChange(_ textView: UITextView) {
+            self.control.text = textView.text
         }
     }
 }

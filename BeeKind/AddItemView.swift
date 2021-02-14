@@ -12,6 +12,10 @@ struct AddItemView: View {
     }
 
     @State var itemText: String = ""
+    var itemTextMaxCharacters = 140
+    var itemTextRemainingCharacters: String {
+        "\(itemTextMaxCharacters - itemText.count)/\(itemTextMaxCharacters)"
+    }
 
     var body: some View {
         ZStack {
@@ -25,7 +29,11 @@ struct AddItemView: View {
                     .bold()
                     .italic()
                     .shadow(radius: 0.8)
-                TextView(text: $itemText)
+                HStack {
+                    Spacer()
+                    Text(itemTextRemainingCharacters)
+                }
+                TextView(text: $itemText, maxCharacterCount: itemTextMaxCharacters)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 16.0).fill(Color.white.opacity(0.2)))
                     .padding()
