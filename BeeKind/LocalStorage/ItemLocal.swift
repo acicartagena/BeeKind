@@ -20,6 +20,10 @@ extension ItemLocal {
         item.created = created
         return item
     }
+
+    var fetchRequest: NSFetchRequest<ItemLocal> {
+        ItemLocal.createFetchRequest()
+    }
 }
 
 extension NSManagedObjectContext {

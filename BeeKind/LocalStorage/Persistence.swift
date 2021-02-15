@@ -6,9 +6,7 @@ struct PersistenceController {
     static let shared = PersistenceController()
 
     private let container: NSPersistentContainer
-    var viewContext: NSManagedObjectContext {
-        return container.viewContext
-    }
+    let viewContext: NSManagedObjectContext
 
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "BeeKind")
@@ -20,6 +18,7 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        viewContext = container.viewContext
     }
 }
 
@@ -56,6 +55,22 @@ extension NSManagedObjectContext {
         if let error = saveError {
             throw error
         }
+    }
+
+    func performFetch<T: NSManagedObject>(request: NSFetchRequest<T>) throws -> [T]  {
+        var fetchError: Error?
+        var result: [T] = []
+        perform {
+            do {
+                result = try self.fetch(request)
+            } catch {
+                fetchError = error
+            }
+        }
+        if let error = fetchError {
+            throw error
+        }
+        return result
     }
 
 }
