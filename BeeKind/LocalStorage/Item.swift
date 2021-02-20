@@ -1,4 +1,4 @@
-//Copyright © 2021 acicartagena. All rights reserved.
+// Copyright © 2021 acicartgena. All rights reserved.
 
 import Foundation
 import CoreData
@@ -11,6 +11,8 @@ class Item: NSManagedObject {
 
     @NSManaged public var text: String
     @NSManaged public var created: Date
+    @NSManaged public var tag: Tag
+    @NSManaged public var id: UUID
 }
 
 extension Item {

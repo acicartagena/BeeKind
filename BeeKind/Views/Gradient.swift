@@ -1,5 +1,5 @@
-//Copyright © 2021 acicartagena. All rights reserved.
-//gradient colors from: https://digitalsynopsis.com/design/beautiful-color-gradients-backgrounds/
+// Copyright © 2021 acicartgena. All rights reserved.
+// gradient colors from: https://digitalsynopsis.com/design/beautiful-color-gradients-backgrounds/
 
 import Foundation
 import SwiftUI

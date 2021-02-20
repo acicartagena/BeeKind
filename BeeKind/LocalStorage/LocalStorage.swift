@@ -1,4 +1,4 @@
-//Copyright © 2021 acicartagena. All rights reserved.
+// Copyright © 2021 acicartgena. All rights reserved.
 
 import Foundation
 import CoreData

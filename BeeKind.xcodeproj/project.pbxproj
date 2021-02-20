@@ -22,6 +22,7 @@
 		3551062C25D8F527006C3C65 /* Hexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551062A25D8F527006C3C65 /* Hexagon.swift */; };
 		3551062D25D8F527006C3C65 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551062B25D8F527006C3C65 /* TextView.swift */; };
 		3551063A25D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551063925D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift */; };
+		35FE426A25E14D2A0098A114 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FE426925E14D2A0098A114 /* Tag.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		3551062A25D8F527006C3C65 /* Hexagon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hexagon.swift; sourceTree = "<group>"; };
 		3551062B25D8F527006C3C65 /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		3551063925D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HexagonGradientButtonStyle.swift; path = BeeKind/HexagonGradientButtonStyle.swift; sourceTree = SOURCE_ROOT; };
+		35FE426925E14D2A0098A114 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 			children = (
 				3545B84525D76389000EADBA /* Persistence.swift */,
 				3545B87F25D763FC000EADBA /* Item.swift */,
+				35FE426925E14D2A0098A114 /* Tag.swift */,
 				3545B88425D7640F000EADBA /* LocalStorage.swift */,
 			);
 			path = LocalStorage;
@@ -303,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35FE426A25E14D2A0098A114 /* Tag.swift in Sources */,
 				3551063A25D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift in Sources */,
 				3545B84625D76389000EADBA /* Persistence.swift in Sources */,
 				3545B83F25D76388000EADBA /* ContentView.swift in Sources */,
