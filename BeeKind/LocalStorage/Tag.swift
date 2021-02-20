@@ -29,7 +29,7 @@ extension Tag {
     static func defaultTag(context: NSManagedObjectContext) -> Tag {
         let request = createFetchRequest()
         request.fetchLimit = 1
-        request.predicate = NSPredicate(format: " %K == %@ ", [#keyPath(Tag.isDefault), true])
+        request.predicate = NSPredicate(format: "isDefault == %d", [true])
         do {
             let tags = try context.performFetch(request: request)
             if let tag = tags.first {
