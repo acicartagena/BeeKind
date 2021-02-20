@@ -9,13 +9,14 @@ class ContentViewModel: ObservableObject {
 
     @Published var items: [ItemLocal] = [] {
         didSet {
-            print("items: \(items)")
+            print("didSet: \(items)")
         }
     }
     init(localStorage: LocalStoring) {
         localStorage.itemsPublisher.sink { _ in
             print("complete")
         } receiveValue: { items in
+            print("received items: \(items)")
             self.items = items
         }.store(in: &cancellables)
     }

@@ -7,6 +7,7 @@ import Combine
 enum LocalStorageError: Error {
     case notificationCenter
     case fetch(Error)
+    case never
 }
 
 protocol LocalStoring {
@@ -21,8 +22,7 @@ class LocalStorage: LocalStoring, ObservableObject {
     init(persistenceController: PersistenceController = PersistenceController.shared) {
         self.persistenceController = persistenceController
 
-        let notification = NSManagedObjectContext.didMergeChangesObjectIDsNotification
-        itemsPublisher = NotificationCenter.default.publisher(for: notification, object: persistenceController.viewContext)
+        let notificationPublisher = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: persistenceController.viewContext)
             .mapError { _ in LocalStorageError.notificationCenter }
             .tryMap { _ in
                 try persistenceController.viewContext.performFetch(request: ItemLocal.createFetchRequest())
@@ -30,6 +30,17 @@ class LocalStorage: LocalStoring, ObservableObject {
             .mapError { error in LocalStorageError.fetch(error) }
             .print()
             .eraseToAnyPublisher()
+
+        let initialItems: [ItemLocal] = (try? persistenceController.viewContext.performFetch(request: ItemLocal.createFetchRequest())) ?? []
+
+                                            //.fetch(ItemLocal.createFetchRequest())) ?? []
+
+        let initialPublisher = Just(initialItems)
+            .mapError { _ in LocalStorageError.never }
+            .eraseToAnyPublisher()
+
+        itemsPublisher = Publishers.Merge(initialPublisher, notificationPublisher).eraseToAnyPublisher()
+
     }
 
     func saveItem(text: String, on date: Date) -> Result<Void, Error> {

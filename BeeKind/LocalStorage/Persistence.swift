@@ -45,7 +45,7 @@ extension NSManagedObjectContext {
     func performSave() throws {
         guard hasChanges else { return }
         var saveError: Error?
-        perform { [self] in
+        performAndWait { [self] in
             do {
                 try self.save()
             } catch {
@@ -60,9 +60,9 @@ extension NSManagedObjectContext {
     func performFetch<T: NSManagedObject>(request: NSFetchRequest<T>) throws -> [T]  {
         var fetchError: Error?
         var result: [T] = []
-        perform {
+        performAndWait {
             do {
-                result = try self.fetch(request)
+                result = try self.fetch(request) as [T]
             } catch {
                 fetchError = error
             }
