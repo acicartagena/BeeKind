@@ -17,7 +17,7 @@
 		3545B85F25D76389000EADBA /* BeeKindUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B85E25D76389000EADBA /* BeeKindUITests.swift */; };
 		3545B87025D763AE000EADBA /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B86F25D763AE000EADBA /* AddItemView.swift */; };
 		3545B87825D763CE000EADBA /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B87725D763CE000EADBA /* Gradient.swift */; };
-		3545B88025D763FC000EADBA /* ItemLocal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B87F25D763FC000EADBA /* ItemLocal.swift */; };
+		3545B88025D763FC000EADBA /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B87F25D763FC000EADBA /* Item.swift */; };
 		3545B88525D7640F000EADBA /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B88425D7640F000EADBA /* LocalStorage.swift */; };
 		3551062C25D8F527006C3C65 /* Hexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551062A25D8F527006C3C65 /* Hexagon.swift */; };
 		3551062D25D8F527006C3C65 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551062B25D8F527006C3C65 /* TextView.swift */; };
@@ -58,7 +58,7 @@
 		3545B86025D76389000EADBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3545B86F25D763AE000EADBA /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
 		3545B87725D763CE000EADBA /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
-		3545B87F25D763FC000EADBA /* ItemLocal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemLocal.swift; sourceTree = "<group>"; };
+		3545B87F25D763FC000EADBA /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		3545B88425D7640F000EADBA /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		3551062A25D8F527006C3C65 /* Hexagon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hexagon.swift; sourceTree = "<group>"; };
 		3551062B25D8F527006C3C65 /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
@@ -156,7 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				3545B84525D76389000EADBA /* Persistence.swift */,
-				3545B87F25D763FC000EADBA /* ItemLocal.swift */,
+				3545B87F25D763FC000EADBA /* Item.swift */,
 				3545B88425D7640F000EADBA /* LocalStorage.swift */,
 			);
 			path = LocalStorage;
@@ -309,7 +309,7 @@
 				3551062C25D8F527006C3C65 /* Hexagon.swift in Sources */,
 				3545B87825D763CE000EADBA /* Gradient.swift in Sources */,
 				3545B84925D76389000EADBA /* BeeKind.xcdatamodeld in Sources */,
-				3545B88025D763FC000EADBA /* ItemLocal.swift in Sources */,
+				3545B88025D763FC000EADBA /* Item.swift in Sources */,
 				3545B88525D7640F000EADBA /* LocalStorage.swift in Sources */,
 				3545B83D25D76388000EADBA /* BeeKindApp.swift in Sources */,
 				3545B87025D763AE000EADBA /* AddItemView.swift in Sources */,

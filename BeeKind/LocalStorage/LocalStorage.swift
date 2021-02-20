@@ -12,12 +12,12 @@ enum LocalStorageError: Error {
 
 protocol LocalStoring {
     func saveItem(text: String, on date: Date) -> Result<Void, Error>
-    var itemsPublisher: AnyPublisher<[ItemLocal], LocalStorageError> { get }
+    var itemsPublisher: AnyPublisher<[Item], LocalStorageError> { get }
 }
 
 class LocalStorage: LocalStoring, ObservableObject {
     private let persistenceController: PersistenceController
-    let itemsPublisher: AnyPublisher<[ItemLocal], LocalStorageError>
+    let itemsPublisher: AnyPublisher<[Item], LocalStorageError>
 
     init(persistenceController: PersistenceController = PersistenceController.shared) {
         self.persistenceController = persistenceController
@@ -25,15 +25,15 @@ class LocalStorage: LocalStoring, ObservableObject {
         let notificationPublisher = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: persistenceController.viewContext)
             .mapError { _ in LocalStorageError.notificationCenter }
             .tryMap { _ in
-                try persistenceController.viewContext.performFetch(request: ItemLocal.createFetchRequest())
+                try persistenceController.viewContext.performFetch(request: Item.createFetchRequest())
             }
             .mapError { error in LocalStorageError.fetch(error) }
             .print()
             .eraseToAnyPublisher()
 
-        let initialItems: [ItemLocal] = (try? persistenceController.viewContext.performFetch(request: ItemLocal.createFetchRequest())) ?? []
+        let initialItems: [Item] = (try? persistenceController.viewContext.performFetch(request: Item.createFetchRequest())) ?? []
 
-                                            //.fetch(ItemLocal.createFetchRequest())) ?? []
+                                            //.fetch(Item.createFetchRequest())) ?? []
 
         let initialPublisher = Just(initialItems)
             .mapError { _ in LocalStorageError.never }
@@ -45,7 +45,7 @@ class LocalStorage: LocalStoring, ObservableObject {
 
     func saveItem(text: String, on date: Date) -> Result<Void, Error> {
         do {
-            try persistenceController.viewContext.createItemLocal(text: text, created: date)
+            try persistenceController.viewContext.createItem(text: text, created: date)
             return . success(())
         } catch {
             assertionFailure(error.localizedDescription)

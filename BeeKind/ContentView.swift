@@ -7,7 +7,7 @@ import Combine
 class ContentViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
-    @Published var items: [ItemLocal] = [] {
+    @Published var items: [Item] = [] {
         didSet {
             print("didSet: \(items)")
         }

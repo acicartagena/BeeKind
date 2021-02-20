@@ -27,7 +27,7 @@ extension PersistenceController {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for i in 0..<10 {
-            let newItem = ItemLocal(context: viewContext)
+            let newItem = Item(context: viewContext)
             newItem.created = Date()
             newItem.text = "Item number \(i)"
         }
