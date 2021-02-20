@@ -16,22 +16,21 @@ class Item: NSManagedObject {
 }
 
 extension Item {
-    static func create(context: NSManagedObjectContext, text: String, created: Date) -> Item {
+    static func create(context: NSManagedObjectContext, text: String, created: Date, tag: Tag) -> Item {
         let item = Item(context: context)
+        item.id = UUID()
         item.text = text
         item.created = created
+        item.tag = tag
         return item
-    }
-
-    var fetchRequest: NSFetchRequest<Item> {
-        Item.createFetchRequest()
     }
 }
 
 extension NSManagedObjectContext {
     @discardableResult
-    func createItem(text: String, created: Date) throws -> Item {
-        let item = Item.create(context: self, text: text, created: created)
+    func createItem(text: String, created: Date, tag: Tag? = nil) throws -> Item {
+        let itemTag = tag ?? Tag.defaultTag(context: self)
+        let item = Item.create(context: self, text: text, created: created, tag: itemTag)
         try performSave()
         return item
     }

@@ -9,11 +9,12 @@
     <entity name="Tag" representedClassName="Tag" syncable="YES">
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isDefault" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="text" optional="YES" attributeType="String"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Item" inverseName="tag" inverseEntity="Item"/>
     </entity>
     <elements>
         <element name="Item" positionX="-63" positionY="-18" width="128" height="103"/>
-        <element name="Tag" positionX="-303.59765625" positionY="-17.8125" width="128" height="103"/>
+        <element name="Tag" positionX="-303.59765625" positionY="-17.8125" width="128" height="118"/>
     </elements>
 </model>
