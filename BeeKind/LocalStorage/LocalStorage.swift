@@ -12,6 +12,7 @@ enum LocalStorageError: Error {
 
 protocol LocalStoring {
     func saveItem(text: String, on date: Date) -> Result<Void, Error>
+    var tagsPublisher: AnyPublisher<[Tag], LocalStorageError> { get }
     var itemsPublisher: AnyPublisher<[Item], LocalStorageError> { get }
 }
 

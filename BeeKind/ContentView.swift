@@ -7,17 +7,24 @@ import Combine
 class ContentViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
-    @Published var items: [Item] = [] {
-        didSet {
-            print("didSet: \(items)")
-        }
-    }
+    @Published var items: [Item] = []
+
+    @Published var tags: [Tag] = []
+
     init(localStorage: LocalStoring) {
         localStorage.itemsPublisher.sink { _ in
-            print("complete")
+            print("items complete")
         } receiveValue: { items in
             print("received items: \(items)")
             self.items = items
+        }.store(in: &cancellables)
+
+
+        localStorage.tagsPublisher.sink { _ in
+            print("tags complete")
+        } receiveValue: { tags in
+            print("received tags: \(tags)")
+            self.tags = tags
         }.store(in: &cancellables)
     }
 }
@@ -36,20 +43,40 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            Button("Add item") {
-                self.isAddScreenPresented.toggle()
-            }.sheet(isPresented: $isAddScreenPresented) {
-                AddItemView(date: Date(), localStoring: localStorage, isPresented: $isAddScreenPresented)
-            }
-            .padding()
+            Text("Bee Kind")
+                .font(.largeTitle)
+                .padding()
             ScrollView {
                 LazyVStack {
+                    Text("Tags")
+                        .font(.headline)
+                    ForEach(viewModel.tags, id:\.text) { item in
+                        Text("\(item.text)")
+                            .font(.title)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                            .background(TemplateGradients.happyFisher.gradient)
+                            .cornerRadius(12.0)
+                            .padding(.horizontal, 10)
+                    }
+                }
+                LazyVStack {
+                    HStack {
+                        Text("Items")
+                            .font(.headline)
+                        Button("Add item") {
+                            self.isAddScreenPresented.toggle()
+                        }.sheet(isPresented: $isAddScreenPresented) {
+                            AddItemView(date: Date(), localStoring: localStorage, isPresented: $isAddScreenPresented)
+                        }
+                        .padding()
+                    }
                     ForEach(viewModel.items, id:\.text) { item in
                         Text("\(item.text)")
                             .font(.title)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
-                            .background(Color.yellow)
+                            .background(TemplateGradients.freshMilk.gradient)
                             .cornerRadius(12.0)
                             .padding(.horizontal, 10)
                     }
