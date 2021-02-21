@@ -17,7 +17,7 @@ struct Hexagon: Shape {
 }
 
 extension Path {
-    static func hexagon(in rect: CGRect, inset: CGFloat = 0) -> Path {
+    static func hexagon(in rect: CGRect, inset: CGFloat = 0.0) -> Path {
         let sides = 6
         let width = rect.size.width - inset * 2
         let height = rect.size.height - inset * 2

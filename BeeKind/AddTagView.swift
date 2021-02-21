@@ -32,12 +32,42 @@ struct AddTagView: View {
         ZStack {
             currentGradient
                 .edgesIgnoringSafeArea(.all)
-            VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                Text("Default Gradient")
+            RotatedShape(shape: Hexagon(),
+                                     angle: Angle(degrees: 90),
+                                     anchor: .center)
+                .stroke(Color.white.opacity(0.10), lineWidth: 5)
+                .background(Color.white.opacity(0.20))
+                .clipShape(RotatedShape(shape: Hexagon(),
+                                        angle: Angle(degrees: 90),
+                                        anchor: .center))
+                .padding()
+            VStack(alignment: .leading) {
+                Spacer()
+                HStack{
+                    Text("Prompt:")
+                        .foregroundColor(Color.white)
+                    Spacer()
+                    Text(tagPromptRemainingCharacters)
+                        .foregroundColor(Color.white)
+                        .italic()
+                    Spacer()
+                }
+                .padding()
+                TextView(text: $tagPromptText, maxCharacterCount: tagPromptMaxCharacters)
+                    .clipShape(RoundedRectangle(cornerRadius: 20.0))
                     .padding()
-                Button("", action: changeCurrentGradient)
-                    .buttonStyle(HexagonGradientButtonStyle(currentGradient: currentGradient))
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
+                HStack {
+                    Text("Default Gradient")
+                        .font(.title)
+                        .foregroundColor(Color.white)
+                        .bold()
+                        .italic()
+                        .shadow(radius: 1.5)
+                        .padding()
+                    Button("", action: changeCurrentGradient)
+                        .buttonStyle(HexagonGradientButtonStyle(currentGradient: currentGradient))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
+                }
                 Spacer()
             }
         }.alert(isPresented: $showError, content: {
