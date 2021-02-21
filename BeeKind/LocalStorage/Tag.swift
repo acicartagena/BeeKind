@@ -9,19 +9,19 @@ class Tag: NSManagedObject {
         return NSFetchRequest<Tag>(entityName: "Tag")
     }
 
-    @NSManaged public var text: String
-    @NSManaged public var created: Date
+    @NSManaged public var label: String
+    @NSManaged public var prompt: String
     @NSManaged public var items: Set<Item>?
     @NSManaged public var id: UUID
     @NSManaged public var isDefault: Bool
 }
 
 extension Tag {
-    static func create(context: NSManagedObjectContext, text: String, created: Date, isDefault: Bool) -> Tag {
+    static func create(context: NSManagedObjectContext, prompt: String, label: String, isDefault: Bool) -> Tag {
         let tag = Tag(context: context)
         tag.id = UUID()
-        tag.text = text
-        tag.created = created
+        tag.prompt = prompt
+        tag.label = label
         tag.isDefault = isDefault
         return tag
     }
@@ -38,14 +38,14 @@ extension Tag {
         } catch {
             print(error)
         }
-        return Tag.create(context: context, text: "I am grateful for", created: Date(), isDefault: true)
+        return Tag.create(context: context, prompt: "I am grateful for", label: "grateful", isDefault: true)
     }
 }
 
 extension NSManagedObjectContext {
     @discardableResult
-    func createTag(text: String, created: Date, isDefault: Bool) throws -> Tag {
-        let item = Tag.create(context: self, text: text, created: created, isDefault: isDefault)
+    func createTag(prompt: String, label: String, isDefault: Bool) throws -> Tag {
+        let item = Tag.create(context: self, prompt: prompt, label: label, isDefault: isDefault)
         try performSave()
         return item
     }

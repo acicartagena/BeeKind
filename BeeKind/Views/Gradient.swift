@@ -1,6 +1,6 @@
 // Copyright © 2021 acicartgena. All rights reserved.
 // gradient colors from: https://digitalsynopsis.com/design/beautiful-color-gradients-backgrounds/
-
+// https://www.eggradients.com/gradient-color
 import Foundation
 import SwiftUI
 
@@ -11,6 +11,7 @@ protocol GradientOption {
 
 enum TemplateGradients: CaseIterable, GradientOption {
     case warmFlame
+    case japaneseSugar
     case winterNeva
     case heavyRain
     case plumPlate
@@ -25,6 +26,7 @@ enum TemplateGradients: CaseIterable, GradientOption {
     case healthyWater
     case viciousStance
     case morningSalad
+    case soda
 
     var colors: [Color] {
         switch self {
@@ -43,6 +45,8 @@ enum TemplateGradients: CaseIterable, GradientOption {
         case .healthyWater: return [Color(hex: 0x96deda), Color(hex: 0x50c9c3)]
         case .viciousStance: return [Color(hex: 0x29323c), Color(hex: 0x485563)]
         case .morningSalad: return [Color(hex: 0xb7f8db), Color(hex: 0x50a7c2)]
+        case .japaneseSugar: return [Color(hex: 0xffe884), Color(hex: 0xfff293)]
+        case .soda: return [Color(hex: 0xFFDD00), Color(hex: 0xFBB034)]
         }
     }
 

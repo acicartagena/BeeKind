@@ -12,6 +12,7 @@ enum LocalStorageError: Error {
 
 protocol LocalStoring {
     func saveItem(text: String, on date: Date) -> Result<Void, Error>
+    func saveTag(prompt: String, tagLabel: String, isDefault: Bool) -> Result<Void, Error>
     var tagsPublisher: AnyPublisher<[Tag], LocalStorageError> { get }
     var itemsPublisher: AnyPublisher<[Item], LocalStorageError> { get }
 }
@@ -55,6 +56,7 @@ class LocalStorage: LocalStoring, ObservableObject {
             .mapError { error in LocalStorageError.fetch(error) }
             .print()
             .eraseToAnyPublisher()
+        let _ = Tag.defaultTag(context: persistenceController.viewContext) // initialise tag
         let initialTags: [Tag] = (try? persistenceController.viewContext.performFetch(request: Tag.createFetchRequest())) ?? []
         let initialTagsPublisher = Just(initialTags)
             .mapError { _ in LocalStorageError.never }
@@ -68,6 +70,16 @@ class LocalStorage: LocalStoring, ObservableObject {
     func saveItem(text: String, on date: Date) -> Result<Void, Error> {
         do {
             try persistenceController.viewContext.createItem(text: text, created: date)
+            return . success(())
+        } catch {
+            assertionFailure(error.localizedDescription)
+            return .failure(error)
+        }
+    }
+
+    func saveTag(prompt: String, tagLabel: String, isDefault: Bool) -> Result<Void, Error> {
+        do {
+            try persistenceController.viewContext.createTag(prompt: prompt, label: tagLabel, isDefault: isDefault)
             return . success(())
         } catch {
             assertionFailure(error.localizedDescription)

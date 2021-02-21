@@ -32,7 +32,8 @@ class ContentViewModel: ObservableObject {
 
 struct ContentView: View {
 
-    @State private var isAddScreenPresented = false
+    @State private var isAddItemScreenPresented = false
+    @State private var isAddTagScreenPresented = false
     private let localStorage: LocalStoring
     @ObservedObject private var viewModel: ContentViewModel
 
@@ -48,10 +49,18 @@ struct ContentView: View {
                 .padding()
             ScrollView {
                 LazyVStack {
-                    Text("Tags")
-                        .font(.headline)
-                    ForEach(viewModel.tags, id:\.text) { item in
-                        Text("\(item.text)")
+                    HStack {
+                        Text("Tags")
+                            .font(.headline)
+                        Button("Add tag") {
+                            self.isAddTagScreenPresented.toggle()
+                        }.sheet(isPresented: $isAddTagScreenPresented) {
+                            AddTagView(localStoring: localStorage, isPresented: $isAddTagScreenPresented)
+                        }
+                        .padding()
+                    }
+                    ForEach(viewModel.tags, id:\.id) { tag in
+                        Text("\(tag.prompt)")
                             .font(.title)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
@@ -65,13 +74,13 @@ struct ContentView: View {
                         Text("Items")
                             .font(.headline)
                         Button("Add item") {
-                            self.isAddScreenPresented.toggle()
-                        }.sheet(isPresented: $isAddScreenPresented) {
-                            AddItemView(date: Date(), localStoring: localStorage, isPresented: $isAddScreenPresented)
+                            self.isAddItemScreenPresented.toggle()
+                        }.sheet(isPresented: $isAddItemScreenPresented) {
+                            AddItemView(date: Date(), localStoring: localStorage, isPresented: $isAddItemScreenPresented)
                         }
                         .padding()
                     }
-                    ForEach(viewModel.items, id:\.text) { item in
+                    ForEach(viewModel.items, id:\.id) { item in
                         Text("\(item.text)")
                             .font(.title)
                             .frame(maxWidth: .infinity, alignment: .leading)
