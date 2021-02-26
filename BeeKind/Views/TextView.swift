@@ -8,12 +8,13 @@ struct TextView: UIViewRepresentable {
     @Binding var text: String
     var maxCharacterCount: Int?
     var isFirstResponder: Bool = false
+    var textStyle: UIFont.TextStyle = .title2
 
     func makeUIView(context: Self.Context) -> UITextView {
         let uiView =  UITextView()
         uiView.textColor = UIColor.white
         uiView.backgroundColor = UIColor.clear
-        uiView.font = UIFont.preferredFont(forTextStyle: .title2)
+        uiView.font = UIFont.preferredFont(forTextStyle: textStyle)
         uiView.clipsToBounds = true
         uiView.layer.masksToBounds = true
         uiView.layer.cornerRadius = 16.0

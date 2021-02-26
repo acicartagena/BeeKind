@@ -3,6 +3,7 @@
 import Foundation
 import SwiftUI
 
+
 struct AddTagView: View {
     let availableGradients: [GradientOption] = TemplateGradients.allCases
     @State var currentGradientIndex: Int = 0
@@ -32,43 +33,49 @@ struct AddTagView: View {
         ZStack {
             currentGradient
                 .edgesIgnoringSafeArea(.all)
-            RotatedShape(shape: Hexagon(),
-                                     angle: Angle(degrees: 90),
-                                     anchor: .center)
-                .stroke(Color.white.opacity(0.10), lineWidth: 5)
-                .background(Color.white.opacity(0.20))
-                .clipShape(RotatedShape(shape: Hexagon(),
-                                        angle: Angle(degrees: 90),
-                                        anchor: .center))
-                .padding()
-            VStack(alignment: .leading) {
-                Spacer()
-                HStack{
-                    Text("Prompt:")
-                        .foregroundColor(Color.white)
+            VStack(alignment: .center) {
+                HStack (alignment: .center){
                     Spacer()
                     Text(tagPromptRemainingCharacters)
                         .foregroundColor(Color.white)
                         .italic()
-                    Spacer()
                 }
                 .padding()
-                TextView(text: $tagPromptText, maxCharacterCount: tagPromptMaxCharacters)
+                Text("Text:")
+                    .font(.title)
+                    .foregroundColor(Color.white)
+                    .bold()
+                    .italic()
+                    .shadow(radius: 1.5)
+                    .padding()
+                TextView(text: $tagPromptText, maxCharacterCount: tagPromptMaxCharacters, textStyle: UIFont.TextStyle.largeTitle)
+                    .shadow(radius: 0.5)
                     .clipShape(RoundedRectangle(cornerRadius: 20.0))
                     .padding()
-                HStack {
-                    Text("Default Gradient")
-                        .font(.title)
-                        .foregroundColor(Color.white)
-                        .bold()
-                        .italic()
-                        .shadow(radius: 1.5)
-                        .padding()
-                    Button("", action: changeCurrentGradient)
-                        .buttonStyle(HexagonGradientButtonStyle(currentGradient: currentGradient))
-                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
-                }
+                Text("Default Gradient:")
+                    .font(.title)
+                    .foregroundColor(Color.white)
+                    .bold()
+                    .italic()
+                    .shadow(radius: 1.5)
+                    .padding()
+                Button("", action: changeCurrentGradient)
+                    .buttonStyle(HexagonGradientButtonStyle(currentGradient: currentGradient))
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
                 Spacer()
+                HStack {
+                    Spacer()
+                    Button("Save") {
+                        save()
+                    }
+                    .foregroundColor(Color.gray)
+                    .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                    .background(Color.white)
+                    .cornerRadius(16)
+                    .font(.title3)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
+                    Spacer()
+                }.padding()
             }
         }.alert(isPresented: $showError, content: {
             return Alert(title: Text(error ?? "Something went wrong"), dismissButton: .default(Text("okies")))
