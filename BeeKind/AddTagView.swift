@@ -22,6 +22,7 @@ struct AddTagView: View {
     @State var error: String?
     @Binding var showError: Bool
     @Binding var isPresented: Bool
+    @State var isDefault = false
 
     init(localStoring: LocalStoring, isPresented: Binding<Bool>) {
         self.localStoring = localStoring
@@ -52,16 +53,27 @@ struct AddTagView: View {
                     .shadow(radius: 0.5)
                     .clipShape(RoundedRectangle(cornerRadius: 20.0))
                     .padding()
-                Text("Default Gradient:")
-                    .font(.title)
-                    .foregroundColor(Color.white)
-                    .bold()
-                    .italic()
-                    .shadow(radius: 1.5)
-                    .padding()
-                Button("", action: changeCurrentGradient)
-                    .buttonStyle(HexagonGradientButtonStyle(currentGradient: currentGradient))
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
+                Toggle(isOn: $isDefault) {
+                    Text("Default HoneyComb:")
+                        .font(.title)
+                        .foregroundColor(Color.white)
+                        .bold()
+                        .italic()
+                        .shadow(radius: 1.5)
+                }
+                .padding()
+                HStack {
+                    Text("Gradient:")
+                        .font(.title)
+                        .foregroundColor(Color.white)
+                        .bold()
+                        .italic()
+                        .shadow(radius: 1.5)
+                        .padding()
+                    Button("", action: changeCurrentGradient)
+                        .buttonStyle(HexagonGradientButtonStyle(currentGradient: currentGradient))
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
+                }
                 Spacer()
                 HStack {
                     Spacer()

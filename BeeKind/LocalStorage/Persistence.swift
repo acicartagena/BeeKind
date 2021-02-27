@@ -57,13 +57,15 @@ extension NSManagedObjectContext {
         }
     }
 
-    func performFetch<T: NSManagedObject>(request: NSFetchRequest<T>) throws -> [T]  {
+    func performFetch<T>(_ request: NSFetchRequest<T>) throws -> [T] {
+        // TODO: update to an NSManagedObjectContext extension
         var fetchError: Error?
         var result: [T] = []
-        performAndWait {
+        self.performAndWait {
             do {
-                result = try self.fetch(request) as [T]
+                result = try self.fetch(request)
             } catch {
+                assertionFailure(error.localizedDescription)
                 fetchError = error
             }
         }
@@ -72,5 +74,43 @@ extension NSManagedObjectContext {
         }
         return result
     }
+}
 
+extension NSManagedObject {
+    static func findOrCreate(in context: NSManagedObjectContext, matching predicate: NSPredicate, configure: (Self) -> ()) -> Self {
+        guard let object = findOrFetch(in: context, matching: predicate) else {
+            var newObject: Self!
+            context.performAndWait {
+                newObject = Self(context: context)
+                configure(newObject)
+            }
+            return newObject
+        }
+        return object
+    }
+
+    static func findOrFetch(in context: NSManagedObjectContext, matching predicate: NSPredicate) -> Self? {
+        guard let object = materializedObject(in: context, matching: predicate) else {
+            let fetchRequest = Self.fetchRequest()
+            fetchRequest.predicate = predicate
+            fetchRequest.returnsObjectsAsFaults = false
+            fetchRequest.fetchLimit = 1
+            let x: Self? = try? context.performFetch(fetchRequest).first as? Self
+            return x
+        }
+        return object
+    }
+
+
+    static func materializedObject(in context: NSManagedObjectContext, matching predicate: NSPredicate) -> Self? {
+        var materializedObject: Self?
+        context.performAndWait {
+            for object in context.registeredObjects where !object.isFault {
+                guard let result = object as? Self else { continue }
+                guard predicate.evaluate(with: result) else { continue }
+                materializedObject = result
+            }
+        }
+        return materializedObject
+    }
 }

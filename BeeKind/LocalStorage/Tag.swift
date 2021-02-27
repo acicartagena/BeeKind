@@ -9,20 +9,20 @@ class Tag: NSManagedObject {
         return NSFetchRequest<Tag>(entityName: "Tag")
     }
 
-    @NSManaged public var label: String
-    @NSManaged public var prompt: String
-    @NSManaged public var items: Set<Item>?
+    @NSManaged public var text: String
     @NSManaged public var id: UUID
     @NSManaged public var isDefault: Bool
+    @NSManaged public var defaultGradient: Gradient
+    @NSManaged public var items: Set<Item>?
 }
 
 extension Tag {
-    static func create(context: NSManagedObjectContext, prompt: String, label: String, isDefault: Bool) -> Tag {
+    static func create(context: NSManagedObjectContext, text: String, isDefault: Bool, defaultGradient: Gradient) -> Tag {
         let tag = Tag(context: context)
         tag.id = UUID()
-        tag.prompt = prompt
-        tag.label = label
+        tag.text = text
         tag.isDefault = isDefault
+        tag.defaultGradient = defaultGradient
         return tag
     }
 
@@ -31,21 +31,22 @@ extension Tag {
         request.fetchLimit = 1
         request.predicate = NSPredicate(format: "%K == %d", argumentArray: [#keyPath(Tag.isDefault), true])
         do {
-            let tags = try context.performFetch(request: request)
+            let tags = try context.performFetch(request)
             if let tag = tags.first {
                 return tag
             }
         } catch {
             print(error)
         }
-        return Tag.create(context: context, prompt: "I am grateful for", label: "grateful", isDefault: true)
+        let defaultGradient = Gradient.gradient(from: TemplateGradients.soda, context: context)
+        return Tag.create(context: context, text: "I am grateful for", isDefault: true, defaultGradient: defaultGradient)
     }
 }
 
 extension NSManagedObjectContext {
     @discardableResult
-    func createTag(prompt: String, label: String, isDefault: Bool) throws -> Tag {
-        let item = Tag.create(context: self, prompt: prompt, label: label, isDefault: isDefault)
+    func createTag(text: String, isDefault: Bool, defaultGradient: Gradient) throws -> Tag {
+        let item = Tag.create(context: self, text: text, isDefault: isDefault, defaultGradient: defaultGradient)
         try performSave()
         return item
     }

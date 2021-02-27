@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19E287" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Gradient" representedClassName="Gradient" syncable="YES">
+        <attribute name="endColor" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="startColor" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="items" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Item" inverseName="gradient" inverseEntity="Item"/>
+        <relationship name="tags" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Tag" inverseName="defaultGradient" inverseEntity="Tag"/>
+    </entity>
     <entity name="Item" representedClassName="Item" syncable="YES">
         <attribute name="created" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="text" optional="YES" attributeType="String"/>
+        <relationship name="gradient" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Gradient" inverseName="items" inverseEntity="Gradient"/>
         <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" inverseName="items" inverseEntity="Tag"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isDefault" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
-        <attribute name="label" optional="YES" attributeType="String"/>
-        <attribute name="prompt" optional="YES" attributeType="String"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
+        <relationship name="defaultGradient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Gradient" inverseName="tags" inverseEntity="Gradient"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Item" inverseName="tag" inverseEntity="Item"/>
     </entity>
     <elements>
-        <element name="Item" positionX="-63" positionY="-18" width="128" height="103"/>
-        <element name="Tag" positionX="-303.59765625" positionY="-17.8125" width="128" height="118"/>
+        <element name="Gradient" positionX="-333.4296875" positionY="109.78515625" width="128" height="118"/>
+        <element name="Item" positionX="-538.51171875" positionY="194.54296875" width="128" height="118"/>
+        <element name="Tag" positionX="-553.578125" positionY="19.77734375" width="128" height="118"/>
     </elements>
 </model>

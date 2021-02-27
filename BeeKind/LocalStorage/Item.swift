@@ -13,24 +13,26 @@ class Item: NSManagedObject {
     @NSManaged public var created: Date
     @NSManaged public var tag: Tag
     @NSManaged public var id: UUID
+    @NSManaged public var gradient: Gradient
 }
 
 extension Item {
-    static func create(context: NSManagedObjectContext, text: String, created: Date, tag: Tag) -> Item {
+    static func create(context: NSManagedObjectContext, text: String, created: Date, gradient: Gradient, tag: Tag) -> Item {
         let item = Item(context: context)
         item.id = UUID()
         item.text = text
         item.created = created
         item.tag = tag
+        item.gradient = gradient
         return item
     }
 }
 
 extension NSManagedObjectContext {
     @discardableResult
-    func createItem(text: String, created: Date, tag: Tag? = nil) throws -> Item {
+    func createItem(text: String, created: Date, gradient: Gradient, tag: Tag? = nil) throws -> Item {
         let itemTag = tag ?? Tag.defaultTag(context: self)
-        let item = Item.create(context: self, text: text, created: created, tag: itemTag)
+        let item = Item.create(context: self, text: text, created: created, gradient: gradient, tag: itemTag)
         try performSave()
         return item
     }

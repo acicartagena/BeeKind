@@ -11,8 +11,8 @@ enum LocalStorageError: Error {
 }
 
 protocol LocalStoring {
-    func saveItem(text: String, on date: Date) -> Result<Void, Error>
-    func saveTag(prompt: String, tagLabel: String, isDefault: Bool) -> Result<Void, Error>
+    func saveItem(text: String, on date: Date, gradient: GradientOption) -> Result<Void, Error>
+    func saveTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error>
     var tagsPublisher: AnyPublisher<[Tag], LocalStorageError> { get }
     var itemsPublisher: AnyPublisher<[Item], LocalStorageError> { get }
 }
@@ -35,12 +35,12 @@ class LocalStorage: LocalStoring, ObservableObject {
         let updatedItems: AnyPublisher<[Item], LocalStorageError> = notificationPublisher
             .filter { $0.containsChanges(of: Item.self) }
             .tryMap { _ in
-                try persistenceController.viewContext.performFetch(request: Item.createFetchRequest())
+                try persistenceController.viewContext.performFetch(Item.createFetchRequest())
             }
             .mapError { error in LocalStorageError.fetch(error) }
             .print()
             .eraseToAnyPublisher()
-        let initialItems: [Item] = (try? persistenceController.viewContext.performFetch(request: Item.createFetchRequest())) ?? []
+        let initialItems: [Item] = (try? persistenceController.viewContext.performFetch(Item.createFetchRequest())) ?? []
         let initialItemsPublisher = Just(initialItems)
             .mapError { _ in LocalStorageError.never }
             .eraseToAnyPublisher()
@@ -51,13 +51,13 @@ class LocalStorage: LocalStoring, ObservableObject {
         let updatedTags: AnyPublisher<[Tag], LocalStorageError> = notificationPublisher
             .filter { $0.containsChanges(of: Tag.self) }
             .tryMap { _ in
-                try persistenceController.viewContext.performFetch(request: Tag.createFetchRequest())
+                try persistenceController.viewContext.performFetch(Tag.createFetchRequest())
             }
             .mapError { error in LocalStorageError.fetch(error) }
             .print()
             .eraseToAnyPublisher()
         let _ = Tag.defaultTag(context: persistenceController.viewContext) // initialise tag
-        let initialTags: [Tag] = (try? persistenceController.viewContext.performFetch(request: Tag.createFetchRequest())) ?? []
+        let initialTags: [Tag] = (try? persistenceController.viewContext.performFetch(Tag.createFetchRequest())) ?? []
         let initialTagsPublisher = Just(initialTags)
             .mapError { _ in LocalStorageError.never }
             .eraseToAnyPublisher()
@@ -67,9 +67,11 @@ class LocalStorage: LocalStoring, ObservableObject {
 
     }
 
-    func saveItem(text: String, on date: Date) -> Result<Void, Error> {
+    func saveItem(text: String, on date: Date, gradient: GradientOption) -> Result<Void, Error> {
         do {
-            try persistenceController.viewContext.createItem(text: text, created: date)
+            let context = persistenceController.viewContext
+            let gradientEntity = Gradient.gradient(from: gradient, context: context)
+            try persistenceController.viewContext.createItem(text: text, created: date, gradient: gradientEntity)
             return . success(())
         } catch {
             assertionFailure(error.localizedDescription)
@@ -77,16 +79,17 @@ class LocalStorage: LocalStoring, ObservableObject {
         }
     }
 
-    func saveTag(prompt: String, tagLabel: String, isDefault: Bool) -> Result<Void, Error> {
+    func saveTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error> {
         do {
-            try persistenceController.viewContext.createTag(prompt: prompt, label: tagLabel, isDefault: isDefault)
+            let context = persistenceController.viewContext
+            let gradient = Gradient.gradient(from: defaultGradient, context: context)
+            try context.createTag(text: text, isDefault: isDefault, defaultGradient: gradient)
             return . success(())
         } catch {
             assertionFailure(error.localizedDescription)
             return .failure(error)
         }
     }
-
 }
 
 extension LocalStorage {

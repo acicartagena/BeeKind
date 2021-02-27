@@ -60,7 +60,7 @@ struct ContentView: View {
                         .padding()
                     }
                     ForEach(viewModel.tags, id:\.id) { tag in
-                        Text("\(tag.prompt)")
+                        Text("\(tag.text)")
                             .font(.title)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()

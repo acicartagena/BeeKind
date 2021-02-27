@@ -91,7 +91,7 @@ struct AddItemView: View {
     }
 
     func save() {
-        switch localStoring.saveItem(text: itemText, on: date) {
+        switch localStoring.saveItem(text: itemText, on: date, gradient: availableGradients[currentGradientIndex]) {
         case .success: isPresented = false
         case .failure(let saveError):
             showError = true
