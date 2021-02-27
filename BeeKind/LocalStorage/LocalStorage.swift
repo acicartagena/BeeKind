@@ -15,6 +15,7 @@ enum LocalStorageError: Error {
 protocol LocalStoring {
     var defaultTag: Tag { get }
     var tagsPublisher: AnyPublisher<[Tag], LocalStorageError> { get }
+    func tags() -> Result<[Tag], Error>
     func items(for tag: Tag) -> AnyPublisher<[Item], LocalStorageError>
     func saveItem(text: String, on date: Date, gradient: GradientOption, tag: Tag) -> Result<Void, Error>
     func saveTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error>
@@ -27,6 +28,7 @@ extension Gradient: GradientOption {
 }
 
 class LocalStorage: LocalStoring, ObservableObject {
+    private var cancellables = Set<AnyCancellable>()
 
     private let persistenceController: PersistenceController
 
@@ -68,7 +70,6 @@ class LocalStorage: LocalStoring, ObservableObject {
         tagsPublisher = initialTagsPublisher.merge(with: updatedTags)
             .share()
             .eraseToAnyPublisher()
-
     }
 
     func saveItem(text: String, on date: Date, gradient: GradientOption, tag: Tag) -> Result<Void, Error> {
@@ -118,6 +119,15 @@ class LocalStorage: LocalStoring, ObservableObject {
         return initialItemsPublisher.merge(with: updatedItems)
             .share()
             .eraseToAnyPublisher()
+    }
+
+    func tags() -> Result<[Tag], Error> {
+        do {
+            let tags = try persistenceController.viewContext.performFetch(Tag.createFetchRequest())
+            return .success(tags)
+        } catch {
+            return .failure(error)
+        }
     }
 }
 

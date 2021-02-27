@@ -15,6 +15,9 @@ class SelectTagViewModel: ObservableObject {
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().standardAppearance = appearance
 
+        if case let .success(initialTags) = localStorage.tags() {
+            tags = initialTags
+        }
         localStorage.tagsPublisher.sink { _ in
             print("tags complete")
         } receiveValue: { tags in
@@ -28,16 +31,27 @@ struct SelectTagScreenView: View {
 
     @ObservedObject private var viewModel: SelectTagViewModel
     @State var selection: Int = 0
-
-    init(localStorage: LocalStoring) {
+    @Binding var isPresented: Bool
+    
+    init(localStorage: LocalStoring, isPresented: Binding<Bool>) {
         viewModel = SelectTagViewModel(localStorage: localStorage)
+        _isPresented = isPresented
     }
 
     var body: some View {
-        Picker(selection: $selection, label: Text("Tag")) {
-            ForEach(0 ..< viewModel.tags.count) { index in
-                Text(self.viewModel.tags[index].text)
+        VStack {
+            Picker(selection: $selection, label: Text("Tag")) {
+                ForEach(0 ..< viewModel.tags.count) { index in
+                    Text(self.viewModel.tags[index].text)
+                }
+            }.pickerStyle(WheelPickerStyle())
+            Button("Save") {
+                save()
             }
-        }.pickerStyle(WheelPickerStyle())
+        }
+    }
+
+    func save() {
+        isPresented = false
     }
 }

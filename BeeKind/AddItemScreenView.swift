@@ -101,7 +101,7 @@ struct AddItemScreenView: View {
             return Alert(title: Text(error ?? "Something went wrong"), dismissButton: .default(Text("okies")))
         }
         .sheet(isPresented: $showTagPicker) {
-            return SelectTagScreenView(localStorage: localStoring)
+            return SelectTagScreenView(localStorage: localStoring, isPresented: $showTagPicker)
         }
     }
 
