@@ -66,13 +66,12 @@ struct ContentView: View {
                             NavigationLink(destination: TagItemsScreenView(localStorage: localStorage, tag: tag)) {
                                 Text("\(tag.text)")
                                     .font(.title)
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding()
-                            .background(tag.defaultGradient.gradient)
-                            .cornerRadius(12.0)
-                            .padding(.horizontal, 10)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding()
+                                    .background(tag.defaultGradient.gradient)
+                                    .cornerRadius(12.0)
+                                    .padding(.horizontal, 10)
+                            }.buttonStyle(PlainButtonStyle())
                         }
                     }
                 }
