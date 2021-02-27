@@ -19,6 +19,7 @@
 		3545B87825D763CE000EADBA /* TemplateGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B87725D763CE000EADBA /* TemplateGradient.swift */; };
 		3545B88025D763FC000EADBA /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B87F25D763FC000EADBA /* Item.swift */; };
 		3545B88525D7640F000EADBA /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B88425D7640F000EADBA /* LocalStorage.swift */; };
+		3549384425EA41C000472A70 /* TagItemsScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549384325EA41C000472A70 /* TagItemsScreenView.swift */; };
 		3551062C25D8F527006C3C65 /* Hexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551062A25D8F527006C3C65 /* Hexagon.swift */; };
 		3551062D25D8F527006C3C65 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551062B25D8F527006C3C65 /* TextView.swift */; };
 		3551063A25D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551063925D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift */; };
@@ -63,6 +64,7 @@
 		3545B87725D763CE000EADBA /* TemplateGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateGradient.swift; sourceTree = "<group>"; };
 		3545B87F25D763FC000EADBA /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		3545B88425D7640F000EADBA /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
+		3549384325EA41C000472A70 /* TagItemsScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagItemsScreenView.swift; sourceTree = "<group>"; };
 		3551062A25D8F527006C3C65 /* Hexagon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hexagon.swift; sourceTree = "<group>"; };
 		3551062B25D8F527006C3C65 /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		3551063925D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HexagonGradientButtonStyle.swift; path = BeeKind/HexagonGradientButtonStyle.swift; sourceTree = SOURCE_ROOT; };
@@ -122,12 +124,12 @@
 				3545B83C25D76388000EADBA /* BeeKindApp.swift */,
 				3545B83E25D76388000EADBA /* ContentView.swift */,
 				3551063525D8F5CF006C3C65 /* Views */,
+				3549384325EA41C000472A70 /* TagItemsScreenView.swift */,
 				3545B86F25D763AE000EADBA /* AddItemScreenView.swift */,
 				359CB8F425E27673002767E9 /* AddTagScreenView.swift */,
 				3545B84025D76389000EADBA /* Assets.xcassets */,
 				3551063125D8F5C2006C3C65 /* LocalStorage */,
 				3545B84A25D76389000EADBA /* Info.plist */,
-				3545B84725D76389000EADBA /* BeeKind.xcdatamodeld */,
 				3545B84225D76389000EADBA /* Preview Content */,
 			);
 			path = BeeKind;
@@ -159,13 +161,22 @@
 			path = BeeKindUITests;
 			sourceTree = "<group>";
 		};
-		3551063125D8F5C2006C3C65 /* LocalStorage */ = {
+		3549384825EA43FF00472A70 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				3545B84525D76389000EADBA /* Persistence.swift */,
+				3545B84725D76389000EADBA /* BeeKind.xcdatamodeld */,
 				3545B87F25D763FC000EADBA /* Item.swift */,
 				35FE426925E14D2A0098A114 /* Tag.swift */,
 				358093A825E9F00B0009E893 /* Gradient.swift */,
+				3545B84525D76389000EADBA /* Persistence.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		3551063125D8F5C2006C3C65 /* LocalStorage */ = {
+			isa = PBXGroup;
+			children = (
+				3549384825EA43FF00472A70 /* CoreData */,
 				3545B88425D7640F000EADBA /* LocalStorage.swift */,
 			);
 			path = LocalStorage;
@@ -315,6 +326,7 @@
 				35FE426A25E14D2A0098A114 /* Tag.swift in Sources */,
 				3551063A25D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift in Sources */,
 				3545B84625D76389000EADBA /* Persistence.swift in Sources */,
+				3549384425EA41C000472A70 /* TagItemsScreenView.swift in Sources */,
 				358093A925E9F00B0009E893 /* Gradient.swift in Sources */,
 				3545B83F25D76388000EADBA /* ContentView.swift in Sources */,
 				3551062C25D8F527006C3C65 /* Hexagon.swift in Sources */,

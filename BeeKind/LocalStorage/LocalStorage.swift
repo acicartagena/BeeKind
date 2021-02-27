@@ -14,7 +14,7 @@ protocol LocalStoring {
     func saveItem(text: String, on date: Date, gradient: GradientOption) -> Result<Void, Error>
     func saveTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error>
     var tagsPublisher: AnyPublisher<[Tag], LocalStorageError> { get }
-    var itemsPublisher: AnyPublisher<[Item], LocalStorageError> { get }
+    func items(for tag: Tag) -> AnyPublisher<[Item], LocalStorageError>
 }
 
 extension Gradient: GradientOption {
@@ -26,31 +26,15 @@ extension Gradient: GradientOption {
 class LocalStorage: LocalStoring, ObservableObject {
     private let persistenceController: PersistenceController
 
-    let itemsPublisher: AnyPublisher<[Item], LocalStorageError>
     let tagsPublisher: AnyPublisher<[Tag], LocalStorageError>
+    private let notificationPublisher: AnyPublisher <Notification, LocalStorageError>
 
     init(persistenceController: PersistenceController = PersistenceController.shared) {
         self.persistenceController = persistenceController
 
-        let notificationPublisher: AnyPublisher <Notification, LocalStorageError> = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: persistenceController.viewContext)
+        notificationPublisher = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: persistenceController.viewContext)
             .print("notification: ")
             .mapError { _ in LocalStorageError.notificationCenter }
-            .share()
-            .eraseToAnyPublisher()
-
-        let updatedItems: AnyPublisher<[Item], LocalStorageError> = notificationPublisher
-            .filter { $0.containsChanges(of: Item.self) }
-            .tryMap { _ in
-                try persistenceController.viewContext.performFetch(Item.createFetchRequest())
-            }
-            .mapError { error in LocalStorageError.fetch(error) }
-            .print()
-            .eraseToAnyPublisher()
-        let initialItems: [Item] = (try? persistenceController.viewContext.performFetch(Item.createFetchRequest())) ?? []
-        let initialItemsPublisher = Just(initialItems)
-            .mapError { _ in LocalStorageError.never }
-            .eraseToAnyPublisher()
-        itemsPublisher = initialItemsPublisher.merge(with: updatedItems)
             .share()
             .eraseToAnyPublisher()
 
@@ -95,6 +79,27 @@ class LocalStorage: LocalStoring, ObservableObject {
             assertionFailure(error.localizedDescription)
             return .failure(error)
         }
+    }
+
+    func items(for tag: Tag) -> AnyPublisher<[Item], LocalStorageError> {
+        let fetchgRequest = Item.createFetchRequest()
+        fetchgRequest.predicate = NSPredicate(format: "%K == %@", argumentArray: [#keyPath(Item.tag.id), tag.id.uuidString])
+
+        let updatedItems: AnyPublisher<[Item], LocalStorageError> = notificationPublisher
+            .filter { $0.containsChanges(of: Item.self) }
+            .tryMap { _ in
+                return try self.persistenceController.viewContext.performFetch(fetchgRequest)
+            }
+            .mapError { error in LocalStorageError.fetch(error) }
+            .print()
+            .eraseToAnyPublisher()
+        let initialItems: [Item] = (try? persistenceController.viewContext.performFetch(fetchgRequest)) ?? []
+        let initialItemsPublisher = Just(initialItems)
+            .mapError { _ in LocalStorageError.never }
+            .eraseToAnyPublisher()
+        return initialItemsPublisher.merge(with: updatedItems)
+            .share()
+            .eraseToAnyPublisher()
     }
 }
 

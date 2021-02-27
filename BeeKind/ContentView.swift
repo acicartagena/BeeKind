@@ -3,22 +3,18 @@
 import SwiftUI
 import CoreData
 import Combine
+import UIKit
 
 class ContentViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
-    @Published var items: [Item] = []
-
     @Published var tags: [Tag] = []
 
     init(localStorage: LocalStoring) {
-        localStorage.itemsPublisher.sink { _ in
-            print("items complete")
-        } receiveValue: { items in
-            print("received items: \(items)")
-            self.items = items
-        }.store(in: &cancellables)
-
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().standardAppearance = appearance
 
         localStorage.tagsPublisher.sink { _ in
             print("tags complete")
@@ -43,56 +39,45 @@ struct ContentView: View {
     }
 
     var body: some View {
-        VStack {
-            Text("Bee Kind")
-                .font(.largeTitle)
+        NavigationView{
+            VStack {
+                Text("Bee Kind")
+                    .font(.largeTitle)
+                    .padding()
+                Button("Add item") {
+                    self.isAddItemScreenPresented.toggle()
+                }.sheet(isPresented: $isAddItemScreenPresented) {
+                    AddItemScreenView(date: Date(), localStoring: localStorage, isPresented: $isAddItemScreenPresented)
+                }
                 .padding()
-            ScrollView {
-                LazyVStack {
-                    HStack {
-                        Text("Tags")
-                            .font(.headline)
-                        Button("Add tag") {
-                            self.isAddTagScreenPresented.toggle()
-                        }.sheet(isPresented: $isAddTagScreenPresented) {
-                            AddTagScreenView(localStoring: localStorage, isPresented: $isAddTagScreenPresented)
+                ScrollView {
+                    LazyVStack {
+                        HStack {
+                            Text("Tags")
+                                .font(.headline)
+                            Button("Add tag") {
+                                self.isAddTagScreenPresented.toggle()
+                            }.sheet(isPresented: $isAddTagScreenPresented) {
+                                AddTagScreenView(localStoring: localStorage, isPresented: $isAddTagScreenPresented)
+                            }
+                            .padding()
                         }
-                        .padding()
-                    }
-                    ForEach(viewModel.tags, id:\.id) { tag in
-                        Text("\(tag.text)")
-                            .font(.title)
+                        ForEach(viewModel.tags, id:\.id) { tag in
+                            NavigationLink(destination: TagItemsScreenView(localStorage: localStorage, tag: tag)) {
+                                Text("\(tag.text)")
+                                    .font(.title)
+                            }
+                            .buttonStyle(PlainButtonStyle())
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
                             .background(tag.defaultGradient.gradient)
                             .cornerRadius(12.0)
                             .padding(.horizontal, 10)
-                    }
-                }
-                LazyVStack {
-                    HStack {
-                        Text("Items")
-                            .font(.headline)
-                        Button("Add item") {
-                            self.isAddItemScreenPresented.toggle()
-                        }.sheet(isPresented: $isAddItemScreenPresented) {
-                            AddItemScreenView(date: Date(), localStoring: localStorage, isPresented: $isAddItemScreenPresented)
                         }
-                        .padding()
-                    }
-                    ForEach(viewModel.items, id:\.id) { item in
-                        Text("\(item.text)")
-                            .font(.title)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding()
-                            .background(item.gradient.gradient)
-                            .cornerRadius(12.0)
-                            .padding(.horizontal, 10)
                     }
                 }
             }
         }
-
     }
 
 }

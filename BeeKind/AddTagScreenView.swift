@@ -3,7 +3,6 @@
 import Foundation
 import SwiftUI
 
-
 struct AddTagScreenView: View {
     let availableGradients: [GradientOption] = TemplateGradients.allCases
     @State var currentGradientIndex: Int = 0
@@ -113,7 +112,7 @@ struct AddTagScreenView: View {
     }
 }
 
-struct AddTagView_Previews: PreviewProvider {
+struct AddTagScreenView_Previews: PreviewProvider {
     static var previews: some View {
         AddTagScreenView(localStoring: LocalStorage.preview, isPresented: .constant(true))
     }
