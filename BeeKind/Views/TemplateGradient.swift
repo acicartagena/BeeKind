@@ -1,6 +1,9 @@
 // Copyright © 2021 acicartgena. All rights reserved.
 // gradient colors from: https://digitalsynopsis.com/design/beautiful-color-gradients-backgrounds/
 // https://www.eggradients.com/gradient-color
+// don't delete TemplateGradients, update availableGradients instead, since gradient names are stored in CoreData
+
+
 import Foundation
 import SwiftUI
 
@@ -9,9 +12,12 @@ protocol GradientOption {
     var colors: [Color] { get }
     var colorHex: [Int64] { get }
     var gradient: LinearGradient { get }
+    static var availableGradients: [GradientOption] { get }
 }
 
 extension GradientOption {
+    static var availableGradients: [GradientOption] { [] }
+
     var colors: [Color] {
         return colorHex.map { Color(hex: $0) }
     }
@@ -22,6 +28,28 @@ extension GradientOption {
 }
 
 enum TemplateGradients: String, CaseIterable, GradientOption {
+    static let availableGradients: [GradientOption] = {
+        let gradients: [TemplateGradients] = [.warmFlame,
+         .japaneseSugar,
+         .winterNeva,
+         .heavyRain,
+         .plumPlate,
+         .happyFisher,
+         .freshMilk,
+         .aquaSplash,
+         .cochitiLake,
+         .passionateBed,
+         .mountainRock,
+         .desertHump,
+         .eternalConstance,
+         .healthyWater,
+         .viciousStance,
+         .morningSalad,
+         .soda,
+         .eggsecuted]
+        return gradients
+    }()
+
     case warmFlame
     case japaneseSugar
     case winterNeva

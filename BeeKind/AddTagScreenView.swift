@@ -4,7 +4,7 @@ import Foundation
 import SwiftUI
 
 struct AddTagScreenView: View {
-    let availableGradients: [GradientOption] = TemplateGradients.allCases
+    let availableGradients: [GradientOption] = TemplateGradients.availableGradients
     @State var currentGradientIndex: Int = 0
     var currentGradient: LinearGradient {
         availableGradients[currentGradientIndex].gradient

@@ -4,7 +4,7 @@ import Foundation
 import SwiftUI
 
 struct AddItemScreenView: View {
-    let availableGradients: [GradientOption] = TemplateGradients.allCases
+    let availableGradients: [GradientOption] = TemplateGradients.availableGradients
     @State var currentGradientIndex: Int = 0
     var currentGradient: LinearGradient {
         availableGradients[currentGradientIndex].gradient
@@ -37,6 +37,10 @@ struct AddItemScreenView: View {
         self.localStoring = localStoring
         _isPresented = isPresented
         _showError = .constant(false)
+
+        if let index = availableGradients.firstIndex(where: { $0.name.lowercased() == tag.defaultGradient.name.lowercased() })  {
+            _currentGradientIndex = State(initialValue: index)
+        }
     }
 
     var body: some View {
