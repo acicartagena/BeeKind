@@ -95,12 +95,12 @@ struct AddTagView: View {
     }
 
     func save() {
-//        switch localStoring.saveItem(text: itemText, on: date) {
-//        case .success: isPresented = false
-//        case .failure(let saveError):
-//            showError = true
-//            error = saveError.localizedDescription
-//        }
+        switch localStoring.saveTag(text: tagPromptText, isDefault: isDefault, defaultGradient: availableGradients[currentGradientIndex]) {
+        case .success: isPresented = false
+        case .failure(let saveError):
+            showError = true
+            error = saveError.localizedDescription
+        }
     }
 
     func changeCurrentGradient() {
