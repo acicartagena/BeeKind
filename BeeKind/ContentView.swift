@@ -47,7 +47,7 @@ struct ContentView: View {
                 Button("Add item") {
                     self.isAddItemScreenPresented.toggle()
                 }.sheet(isPresented: $isAddItemScreenPresented) {
-                    AddItemScreenView(date: Date(), localStoring: localStorage, isPresented: $isAddItemScreenPresented)
+                    AddItemScreenView(date: Date(), localStoring: localStorage, tag: localStorage.defaultTag, isPresented: $isAddItemScreenPresented)
                 }
                 .padding()
                 ScrollView {

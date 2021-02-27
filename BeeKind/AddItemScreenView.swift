@@ -24,7 +24,10 @@ struct AddItemScreenView: View {
     @Binding var showError: Bool
     @Binding var isPresented: Bool
 
-    init(date: Date, localStoring: LocalStoring, isPresented: Binding<Bool>) {
+    var tag: Tag
+
+    init(date: Date, localStoring: LocalStoring, tag: Tag, isPresented: Binding<Bool>) {
+        self.tag = tag
         self.date = date
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
@@ -41,7 +44,7 @@ struct AddItemScreenView: View {
             currentGradient
                 .edgesIgnoringSafeArea(.all)
             VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                Text("I'm grateful for")
+                Text(tag.text)
                     .foregroundColor(.white)
                     .font(.largeTitle)
                     .bold()
@@ -109,8 +112,8 @@ struct AddItemScreenView: View {
     }
 }
 
-struct AddItemScreenView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddItemScreenView(date: Date(), localStoring: LocalStorage.preview, isPresented: .constant(true))
-    }
-}
+//struct AddItemScreenView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddItemScreenView(date: Date(), localStoring: LocalStorage.preview, isPresented: .constant(true))
+//    }
+//}

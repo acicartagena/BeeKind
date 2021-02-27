@@ -27,8 +27,10 @@ struct TagItemsScreenView: View {
     @ObservedObject private var viewModel: TagItemsViewModel
     @State private var isAddItemScreenPresented = false
     private let localStorage: LocalStoring
+    private let tag: Tag
 
     init(localStorage: LocalStoring, tag: Tag) {
+        self.tag = tag
         self.localStorage = localStorage
         viewModel = TagItemsViewModel(localStorage: localStorage, tag: tag)
     }
@@ -44,7 +46,7 @@ struct TagItemsScreenView: View {
             Button("Add item") {
                 self.isAddItemScreenPresented.toggle()
             }.sheet(isPresented: $isAddItemScreenPresented) {
-                AddItemScreenView(date: Date(), localStoring: localStorage, isPresented: $isAddItemScreenPresented)
+                AddItemScreenView(date: Date(), localStoring: localStorage, tag: tag, isPresented: $isAddItemScreenPresented)
             }
         }
         ScrollView {

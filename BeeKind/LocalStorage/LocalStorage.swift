@@ -11,10 +11,11 @@ enum LocalStorageError: Error {
 }
 
 protocol LocalStoring {
-    func saveItem(text: String, on date: Date, gradient: GradientOption) -> Result<Void, Error>
-    func saveTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error>
+    var defaultTag: Tag { get }
     var tagsPublisher: AnyPublisher<[Tag], LocalStorageError> { get }
     func items(for tag: Tag) -> AnyPublisher<[Item], LocalStorageError>
+    func saveItem(text: String, on date: Date, gradient: GradientOption) -> Result<Void, Error>
+    func saveTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error>
 }
 
 extension Gradient: GradientOption {
@@ -24,10 +25,12 @@ extension Gradient: GradientOption {
 }
 
 class LocalStorage: LocalStoring, ObservableObject {
+
     private let persistenceController: PersistenceController
 
     let tagsPublisher: AnyPublisher<[Tag], LocalStorageError>
     private let notificationPublisher: AnyPublisher <Notification, LocalStorageError>
+    lazy var defaultTag: Tag = Tag.defaultTag(context: persistenceController.viewContext)
 
     init(persistenceController: PersistenceController = PersistenceController.shared) {
         self.persistenceController = persistenceController
