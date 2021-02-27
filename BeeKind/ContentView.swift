@@ -19,7 +19,7 @@ class ContentViewModel: ObservableObject {
         localStorage.tagsPublisher.sink { _ in
             print("tags complete")
         } receiveValue: { tags in
-            print("received tags: \(tags)")
+            print("@angela received tags: \(tags)")
             self.tags = tags
         }.store(in: &cancellables)
     }

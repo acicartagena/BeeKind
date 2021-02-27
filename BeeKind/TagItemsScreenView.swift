@@ -16,7 +16,7 @@ class TagItemsViewModel: ObservableObject {
         localStorage.items(for: tag).sink { _ in
             print("items complete")
         } receiveValue: { items in
-            print("received items: \(items)")
+            print("@angela tag: \(tag.text) received items: \(items)")
             self.items = items
         }.store(in: &cancellables)
     }

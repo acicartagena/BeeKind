@@ -24,6 +24,7 @@ extension Item {
         item.created = created
         item.tag = tag
         item.gradient = gradient
+        print("create: gradient: \(gradient)")
         return item
     }
 }

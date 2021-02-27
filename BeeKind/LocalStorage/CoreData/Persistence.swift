@@ -47,7 +47,9 @@ extension NSManagedObjectContext {
         var saveError: Error?
         performAndWait { [self] in
             do {
-                try self.save()
+                if hasChanges {
+                    try self.save()
+                }
             } catch {
                 saveError = error
             }
