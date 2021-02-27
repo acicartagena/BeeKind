@@ -16,7 +16,6 @@
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="isDefault" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="text" optional="YES" attributeType="String"/>
         <relationship name="defaultGradient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Gradient" inverseName="tags" inverseEntity="Gradient"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Item" inverseName="tag" inverseEntity="Item"/>
@@ -24,6 +23,6 @@
     <elements>
         <element name="Gradient" positionX="-199.8984375" positionY="194.046875" width="128" height="118"/>
         <element name="Item" positionX="-538.51171875" positionY="194.54296875" width="128" height="118"/>
-        <element name="Tag" positionX="-553.578125" positionY="19.77734375" width="128" height="118"/>
+        <element name="Tag" positionX="-553.578125" positionY="19.77734375" width="128" height="103"/>
     </elements>
 </model>

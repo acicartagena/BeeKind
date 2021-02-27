@@ -4,6 +4,8 @@ import Foundation
 import CoreData
 import Combine
 
+fileprivate let defaultTagIdKey = "DefaultTagId"
+
 enum LocalStorageError: Error {
     case notificationCenter
     case fetch(Error)
@@ -30,11 +32,17 @@ class LocalStorage: LocalStoring, ObservableObject {
 
     let tagsPublisher: AnyPublisher<[Tag], LocalStorageError>
     private let notificationPublisher: AnyPublisher <Notification, LocalStorageError>
-    lazy var defaultTag: Tag = Tag.defaultTag(context: persistenceController.viewContext)
+    private(set) var defaultTag: Tag {
+        didSet {
+            userDefaults.setValue(defaultTag.id.uuidString, forKey: defaultTagIdKey)
+        }
+    }
 
-    init(persistenceController: PersistenceController = PersistenceController.shared) {
+    private let userDefaults: UserDefaults
+    init(persistenceController: PersistenceController = PersistenceController.shared, userDefaults: UserDefaults = UserDefaults.standard) {
         self.persistenceController = persistenceController
-
+        self.userDefaults = userDefaults
+        
         notificationPublisher = NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange, object: persistenceController.viewContext)
             .print("notification: ")
             .mapError { _ in LocalStorageError.notificationCenter }
@@ -49,7 +57,10 @@ class LocalStorage: LocalStoring, ObservableObject {
             .mapError { error in LocalStorageError.fetch(error) }
             .print()
             .eraseToAnyPublisher()
-        let _ = Tag.defaultTag(context: persistenceController.viewContext) // initialise tag
+
+        // initialise tag
+        defaultTag = Tag.defaultTag(with: userDefaults.object(forKey: defaultTagIdKey) as? String, context: persistenceController.viewContext)
+
         let initialTags: [Tag] = (try? persistenceController.viewContext.performFetch(Tag.createFetchRequest())) ?? []
         let initialTagsPublisher = Just(initialTags)
             .mapError { _ in LocalStorageError.never }
@@ -77,7 +88,10 @@ class LocalStorage: LocalStoring, ObservableObject {
         do {
             let context = persistenceController.viewContext
             let gradient = Gradient.gradient(from: defaultGradient, context: context)
-            try context.createTag(text: text, isDefault: isDefault, defaultGradient: gradient)
+            let tag = try context.createTag(text: text, defaultGradient: gradient)
+            if isDefault {
+                defaultTag = tag
+            }
             return . success(())
         } catch {
             assertionFailure(error.localizedDescription)
