@@ -98,7 +98,7 @@ struct AddItemScreenView: View {
     }
 
     func save() {
-        switch localStoring.saveItem(text: itemText, on: date, gradient: availableGradients[currentGradientIndex]) {
+        switch localStoring.saveItem(text: itemText, on: date, gradient: availableGradients[currentGradientIndex], tag: tag) {
         case .success: isPresented = false
         case .failure(let saveError):
             showError = true

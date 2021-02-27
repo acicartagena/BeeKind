@@ -14,7 +14,7 @@ protocol LocalStoring {
     var defaultTag: Tag { get }
     var tagsPublisher: AnyPublisher<[Tag], LocalStorageError> { get }
     func items(for tag: Tag) -> AnyPublisher<[Item], LocalStorageError>
-    func saveItem(text: String, on date: Date, gradient: GradientOption) -> Result<Void, Error>
+    func saveItem(text: String, on date: Date, gradient: GradientOption, tag: Tag) -> Result<Void, Error>
     func saveTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error>
 }
 
@@ -60,11 +60,11 @@ class LocalStorage: LocalStoring, ObservableObject {
 
     }
 
-    func saveItem(text: String, on date: Date, gradient: GradientOption) -> Result<Void, Error> {
+    func saveItem(text: String, on date: Date, gradient: GradientOption, tag: Tag) -> Result<Void, Error> {
         do {
             let context = persistenceController.viewContext
             let gradientEntity = Gradient.gradient(from: gradient, context: context)
-            try persistenceController.viewContext.createItem(text: text, created: date, gradient: gradientEntity)
+            try persistenceController.viewContext.createItem(text: text, created: date, gradient: gradientEntity, tag: tag)
             return . success(())
         } catch {
             assertionFailure(error.localizedDescription)

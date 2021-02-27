@@ -30,9 +30,8 @@ extension Item {
 
 extension NSManagedObjectContext {
     @discardableResult
-    func createItem(text: String, created: Date, gradient: Gradient, tag: Tag? = nil) throws -> Item {
-        let itemTag = tag ?? Tag.defaultTag(context: self)
-        let item = Item.create(context: self, text: text, created: created, gradient: gradient, tag: itemTag)
+    func createItem(text: String, created: Date, gradient: Gradient, tag: Tag) throws -> Item {
+        let item = Item.create(context: self, text: text, created: created, gradient: gradient, tag: tag)
         try performSave()
         return item
     }
