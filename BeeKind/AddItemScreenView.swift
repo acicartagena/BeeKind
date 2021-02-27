@@ -21,8 +21,9 @@ struct AddItemScreenView: View {
     let localStoring: LocalStoring
 
     @State var error: String?
-    @Binding var showError: Bool
+    @State var showError: Bool = false
     @Binding var isPresented: Bool
+    @State var showTagPicker: Bool = false
 
     var tag: Tag
 
@@ -36,7 +37,6 @@ struct AddItemScreenView: View {
         self.dateString = string
         self.localStoring = localStoring
         _isPresented = isPresented
-        _showError = .constant(false)
 
         if let index = availableGradients.firstIndex(where: { $0.name.lowercased() == tag.defaultGradient.name.lowercased() })  {
             _currentGradientIndex = State(initialValue: index)
@@ -48,13 +48,17 @@ struct AddItemScreenView: View {
             currentGradient
                 .edgesIgnoringSafeArea(.all)
             VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
-                Text(tag.text)
-                    .foregroundColor(.white)
-                    .font(.largeTitle)
-                    .bold()
-                    .italic()
-                    .shadow(radius: 0.8)
-                    .padding()
+                Button {
+                    showTagPicker = true
+                } label: {
+                    Text(tag.text)
+                        .foregroundColor(.white)
+                        .font(.largeTitle)
+                        .bold()
+                        .italic()
+                        .shadow(radius: 0.8)
+                }
+                .padding()
                 ZStack {
                     RoundedRectangle(cornerRadius: 16.0).fill(Color.white.opacity(0.2))
                     VStack {
@@ -92,9 +96,13 @@ struct AddItemScreenView: View {
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
                 Spacer()
             }
-        }.alert(isPresented: $showError, content: {
+        }
+        .alert(isPresented: $showError) {
             return Alert(title: Text(error ?? "Something went wrong"), dismissButton: .default(Text("okies")))
-        })
+        }
+        .sheet(isPresented: $showTagPicker) {
+            return SelectTagScreenView(localStorage: localStoring)
+        }
     }
 
     func save() {

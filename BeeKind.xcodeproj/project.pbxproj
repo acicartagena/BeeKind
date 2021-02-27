@@ -20,6 +20,7 @@
 		3545B88025D763FC000EADBA /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B87F25D763FC000EADBA /* Item.swift */; };
 		3545B88525D7640F000EADBA /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B88425D7640F000EADBA /* LocalStorage.swift */; };
 		3549384425EA41C000472A70 /* TagItemsScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549384325EA41C000472A70 /* TagItemsScreenView.swift */; };
+		3549385325EA7E1000472A70 /* SelectTagScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3549385225EA7E1000472A70 /* SelectTagScreenView.swift */; };
 		3551062C25D8F527006C3C65 /* Hexagon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551062A25D8F527006C3C65 /* Hexagon.swift */; };
 		3551062D25D8F527006C3C65 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551062B25D8F527006C3C65 /* TextView.swift */; };
 		3551063A25D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551063925D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift */; };
@@ -65,6 +66,7 @@
 		3545B87F25D763FC000EADBA /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		3545B88425D7640F000EADBA /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		3549384325EA41C000472A70 /* TagItemsScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagItemsScreenView.swift; sourceTree = "<group>"; };
+		3549385225EA7E1000472A70 /* SelectTagScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTagScreenView.swift; sourceTree = "<group>"; };
 		3551062A25D8F527006C3C65 /* Hexagon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hexagon.swift; sourceTree = "<group>"; };
 		3551062B25D8F527006C3C65 /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		3551063925D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HexagonGradientButtonStyle.swift; path = BeeKind/HexagonGradientButtonStyle.swift; sourceTree = SOURCE_ROOT; };
@@ -127,6 +129,7 @@
 				3549384325EA41C000472A70 /* TagItemsScreenView.swift */,
 				3545B86F25D763AE000EADBA /* AddItemScreenView.swift */,
 				359CB8F425E27673002767E9 /* AddTagScreenView.swift */,
+				3549385225EA7E1000472A70 /* SelectTagScreenView.swift */,
 				3545B84025D76389000EADBA /* Assets.xcassets */,
 				3551063125D8F5C2006C3C65 /* LocalStorage */,
 				3545B84A25D76389000EADBA /* Info.plist */,
@@ -334,6 +337,7 @@
 				3545B84925D76389000EADBA /* BeeKind.xcdatamodeld in Sources */,
 				3545B88025D763FC000EADBA /* Item.swift in Sources */,
 				359CB8F525E27673002767E9 /* AddTagScreenView.swift in Sources */,
+				3549385325EA7E1000472A70 /* SelectTagScreenView.swift in Sources */,
 				3545B88525D7640F000EADBA /* LocalStorage.swift in Sources */,
 				3545B83D25D76388000EADBA /* BeeKindApp.swift in Sources */,
 				3545B87025D763AE000EADBA /* AddItemScreenView.swift in Sources */,
