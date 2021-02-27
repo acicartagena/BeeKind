@@ -55,7 +55,7 @@ struct ContentView: View {
                         Button("Add tag") {
                             self.isAddTagScreenPresented.toggle()
                         }.sheet(isPresented: $isAddTagScreenPresented) {
-                            AddTagView(localStoring: localStorage, isPresented: $isAddTagScreenPresented)
+                            AddTagScreenView(localStoring: localStorage, isPresented: $isAddTagScreenPresented)
                         }
                         .padding()
                     }
@@ -76,7 +76,7 @@ struct ContentView: View {
                         Button("Add item") {
                             self.isAddItemScreenPresented.toggle()
                         }.sheet(isPresented: $isAddItemScreenPresented) {
-                            AddItemView(date: Date(), localStoring: localStorage, isPresented: $isAddItemScreenPresented)
+                            AddItemScreenView(date: Date(), localStoring: localStorage, isPresented: $isAddItemScreenPresented)
                         }
                         .padding()
                     }

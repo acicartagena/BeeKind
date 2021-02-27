@@ -3,7 +3,7 @@
 import Foundation
 import SwiftUI
 
-struct AddItemView: View {
+struct AddItemScreenView: View {
     let availableGradients: [GradientOption] = TemplateGradients.allCases
     @State var currentGradientIndex: Int = 0
     var currentGradient: LinearGradient {
@@ -109,8 +109,8 @@ struct AddItemView: View {
     }
 }
 
-struct AddItemView_Previews: PreviewProvider {
+struct AddItemScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        AddItemView(date: Date(), localStoring: LocalStorage.preview, isPresented: .constant(true))
+        AddItemScreenView(date: Date(), localStoring: LocalStorage.preview, isPresented: .constant(true))
     }
 }

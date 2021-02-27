@@ -15,7 +15,7 @@
 		3545B84925D76389000EADBA /* BeeKind.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3545B84725D76389000EADBA /* BeeKind.xcdatamodeld */; };
 		3545B85425D76389000EADBA /* BeeKindTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B85325D76389000EADBA /* BeeKindTests.swift */; };
 		3545B85F25D76389000EADBA /* BeeKindUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B85E25D76389000EADBA /* BeeKindUITests.swift */; };
-		3545B87025D763AE000EADBA /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B86F25D763AE000EADBA /* AddItemView.swift */; };
+		3545B87025D763AE000EADBA /* AddItemScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B86F25D763AE000EADBA /* AddItemScreenView.swift */; };
 		3545B87825D763CE000EADBA /* TemplateGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B87725D763CE000EADBA /* TemplateGradient.swift */; };
 		3545B88025D763FC000EADBA /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B87F25D763FC000EADBA /* Item.swift */; };
 		3545B88525D7640F000EADBA /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3545B88425D7640F000EADBA /* LocalStorage.swift */; };
@@ -23,7 +23,7 @@
 		3551062D25D8F527006C3C65 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551062B25D8F527006C3C65 /* TextView.swift */; };
 		3551063A25D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3551063925D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift */; };
 		358093A925E9F00B0009E893 /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358093A825E9F00B0009E893 /* Gradient.swift */; };
-		359CB8F525E27673002767E9 /* AddTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CB8F425E27673002767E9 /* AddTagView.swift */; };
+		359CB8F525E27673002767E9 /* AddTagScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359CB8F425E27673002767E9 /* AddTagScreenView.swift */; };
 		35FE426A25E14D2A0098A114 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FE426925E14D2A0098A114 /* Tag.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,7 +59,7 @@
 		3545B85A25D76389000EADBA /* BeeKindUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BeeKindUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3545B85E25D76389000EADBA /* BeeKindUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeeKindUITests.swift; sourceTree = "<group>"; };
 		3545B86025D76389000EADBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3545B86F25D763AE000EADBA /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
+		3545B86F25D763AE000EADBA /* AddItemScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemScreenView.swift; sourceTree = "<group>"; };
 		3545B87725D763CE000EADBA /* TemplateGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateGradient.swift; sourceTree = "<group>"; };
 		3545B87F25D763FC000EADBA /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		3545B88425D7640F000EADBA /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
@@ -67,7 +67,7 @@
 		3551062B25D8F527006C3C65 /* TextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		3551063925D8F8CD006C3C65 /* HexagonGradientButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HexagonGradientButtonStyle.swift; path = BeeKind/HexagonGradientButtonStyle.swift; sourceTree = SOURCE_ROOT; };
 		358093A825E9F00B0009E893 /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
-		359CB8F425E27673002767E9 /* AddTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagView.swift; sourceTree = "<group>"; };
+		359CB8F425E27673002767E9 /* AddTagScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagScreenView.swift; sourceTree = "<group>"; };
 		35FE426925E14D2A0098A114 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -122,8 +122,8 @@
 				3545B83C25D76388000EADBA /* BeeKindApp.swift */,
 				3545B83E25D76388000EADBA /* ContentView.swift */,
 				3551063525D8F5CF006C3C65 /* Views */,
-				3545B86F25D763AE000EADBA /* AddItemView.swift */,
-				359CB8F425E27673002767E9 /* AddTagView.swift */,
+				3545B86F25D763AE000EADBA /* AddItemScreenView.swift */,
+				359CB8F425E27673002767E9 /* AddTagScreenView.swift */,
 				3545B84025D76389000EADBA /* Assets.xcassets */,
 				3551063125D8F5C2006C3C65 /* LocalStorage */,
 				3545B84A25D76389000EADBA /* Info.plist */,
@@ -321,10 +321,10 @@
 				3545B87825D763CE000EADBA /* TemplateGradient.swift in Sources */,
 				3545B84925D76389000EADBA /* BeeKind.xcdatamodeld in Sources */,
 				3545B88025D763FC000EADBA /* Item.swift in Sources */,
-				359CB8F525E27673002767E9 /* AddTagView.swift in Sources */,
+				359CB8F525E27673002767E9 /* AddTagScreenView.swift in Sources */,
 				3545B88525D7640F000EADBA /* LocalStorage.swift in Sources */,
 				3545B83D25D76388000EADBA /* BeeKindApp.swift in Sources */,
-				3545B87025D763AE000EADBA /* AddItemView.swift in Sources */,
+				3545B87025D763AE000EADBA /* AddItemScreenView.swift in Sources */,
 				3551062D25D8F527006C3C65 /* TextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
