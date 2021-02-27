@@ -121,14 +121,17 @@ fileprivate extension Notification {
     }
 
     func insertedObjects<T: NSManagedObject>() -> Set<T> {
-        return userInfo?[NSInsertedObjectsKey] as? Set<T> ?? []
+        guard let set = userInfo?[NSInsertedObjectsKey] as? Set<NSManagedObject> else { return [] }
+        return Set(set.compactMap { $0 as? T })
     }
 
     func deletedObjects<T: NSManagedObject>() -> Set<T> {
-        return userInfo?[NSDeletedObjectsKey] as? Set<T> ?? []
+        guard let set = userInfo?[NSDeletedObjectsKey] as? Set<NSManagedObject> else { return [] }
+        return Set(set.compactMap { $0 as? T })
     }
 
     func updatedObjects<T: NSManagedObject>() -> Set<T> {
-        return userInfo?[NSUpdatedObjectsKey] as? Set<T> ?? []
+        guard let set = userInfo?[NSUpdatedObjectsKey] as? Set<NSManagedObject> else { return [] }
+        return Set(set.compactMap { $0 as? T })
     }
 }
