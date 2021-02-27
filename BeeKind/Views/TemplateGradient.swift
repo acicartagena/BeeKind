@@ -11,6 +11,16 @@ protocol GradientOption {
     var gradient: LinearGradient { get }
 }
 
+extension GradientOption {
+    var colors: [Color] {
+        return colorHex.map { Color(hex: $0) }
+    }
+
+    var gradient: LinearGradient {
+        LinearGradient(gradient: SwiftUI.Gradient(colors: colors), startPoint: .topLeading, endPoint: .bottomTrailing)
+    }
+}
+
 enum TemplateGradients: String, CaseIterable, GradientOption {
     case warmFlame
     case japaneseSugar
@@ -54,14 +64,6 @@ enum TemplateGradients: String, CaseIterable, GradientOption {
         case .soda: return [0xFFDD00, 0xFBB034]
         case .eggsecuted: return [0x000000, 0xD2A813]
         }
-    }
-
-    var colors: [Color] {
-        return colorHex.map { Color(hex: $0) }
-    }
-
-    var gradient: LinearGradient {
-        LinearGradient(gradient: SwiftUI.Gradient(colors: colors), startPoint: .topLeading, endPoint: .bottomTrailing)
     }
 }
 

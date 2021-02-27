@@ -17,6 +17,12 @@ protocol LocalStoring {
     var itemsPublisher: AnyPublisher<[Item], LocalStorageError> { get }
 }
 
+extension Gradient: GradientOption {
+    var colorHex: [Int64] {
+        return [startColor, endColor]
+    }
+}
+
 class LocalStorage: LocalStoring, ObservableObject {
     private let persistenceController: PersistenceController
 

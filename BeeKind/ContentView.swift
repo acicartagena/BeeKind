@@ -64,7 +64,7 @@ struct ContentView: View {
                             .font(.title)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
-                            .background(TemplateGradients.happyFisher.gradient)
+                            .background(tag.defaultGradient.gradient)
                             .cornerRadius(12.0)
                             .padding(.horizontal, 10)
                     }
@@ -85,7 +85,7 @@ struct ContentView: View {
                             .font(.title)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
-                            .background(TemplateGradients.freshMilk.gradient)
+                            .background(item.gradient.gradient)
                             .cornerRadius(12.0)
                             .padding(.horizontal, 10)
                     }
