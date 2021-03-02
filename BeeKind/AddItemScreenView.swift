@@ -2,6 +2,30 @@
 
 import Foundation
 import SwiftUI
+import Combine
+
+class AddItemViewModel: ObservableObject {
+    private var cancellables = Set<AnyCancellable>()
+
+    @Published var tags: [Tag] = []
+
+    init(localStorage: LocalStoring) {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().standardAppearance = appearance
+
+        if case let .success(initialTags) = localStorage.tags() {
+            tags = initialTags
+        }
+        localStorage.tagsPublisher.sink { _ in
+            print("tags complete")
+        } receiveValue: { tags in
+            print("@angela received tags: \(tags)")
+            self.tags = tags
+        }.store(in: &cancellables)
+    }
+}
 
 struct AddItemScreenView: View {
     let availableGradients: [GradientOption] = TemplateGradients.availableGradients
@@ -25,10 +49,12 @@ struct AddItemScreenView: View {
     @Binding var isPresented: Bool
     @State var showTagPicker: Bool = false
 
-    var tag: Tag
+    @ObservedObject private var viewModel: AddItemViewModel
+    @State var tagSelection: Int = 0
+
+    @State var tag: Tag
 
     init(date: Date, localStoring: LocalStoring, tag: Tag, isPresented: Binding<Bool>) {
-        self.tag = tag
         self.date = date
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
@@ -37,7 +63,8 @@ struct AddItemScreenView: View {
         self.dateString = string
         self.localStoring = localStoring
         _isPresented = isPresented
-
+        viewModel = AddItemViewModel(localStorage: localStoring)
+        _tag = State(initialValue: tag)
         if let index = availableGradients.firstIndex(where: { $0.name.lowercased() == tag.defaultGradient.name.lowercased() })  {
             _currentGradientIndex = State(initialValue: index)
         }
@@ -52,10 +79,13 @@ struct AddItemScreenView: View {
                     showTagPicker = true
                 } label: {
                     Text(tag.text)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(hex:tag.defaultGradient.endColor))
                         .font(.largeTitle)
                         .bold()
                         .italic()
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(36.0)
                         .shadow(radius: 0.8)
                 }
                 .padding()
@@ -81,12 +111,13 @@ struct AddItemScreenView: View {
                             Button("Save") {
                                 save()
                             }
-                            .foregroundColor(Color.gray)
+                            .foregroundColor(Color(hex:tag.defaultGradient.endColor))
                             .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                             .background(Color.white)
-                            .cornerRadius(16)
+                            .cornerRadius(28)
                             .font(.title3)
                             .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
+                            .shadow(radius: 0.8)
                         }
                     }
                 }
@@ -96,13 +127,42 @@ struct AddItemScreenView: View {
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
                 Spacer()
             }
+            if showTagPicker {
+                ZStack {
+                    Color.black.opacity(0.7).edgesIgnoringSafeArea(.all)
+                    VStack {
+                        Spacer()
+                        ForEach(0 ..< viewModel.tags.count) { index in
+                            Button {
+                                showTagPicker = false
+                                tag = viewModel.tags[index]
+                                if let index = availableGradients.firstIndex(where: { $0.name.lowercased() == tag.defaultGradient.name.lowercased() })  {
+                                    self.currentGradientIndex = index
+                                }
+                            } label: {
+                                Text(self.viewModel.tags[index].text)
+                                    .shadow(radius: 0.1)
+                                    .padding()
+                                    .font(.title3)
+                                    .foregroundColor(Color.white)
+                                    .background(Color(hex: viewModel.tags[index].defaultGradient.startColor))
+                                    .cornerRadius(32.0)
+
+                            }
+                            .padding()
+                        }
+                        Spacer()
+                    }
+                }
+
+            }
         }
         .alert(isPresented: $showError) {
             return Alert(title: Text(error ?? "Something went wrong"), dismissButton: .default(Text("okies")))
         }
-        .sheet(isPresented: $showTagPicker) {
-            return SelectTagScreenView(localStorage: localStoring, isPresented: $showTagPicker)
-        }
+//        .sheet(isPresented: $showTagPicker) {
+//            return SelectTagScreenView(localStorage: localStoring, isPresented: $showTagPicker)
+//        }
     }
 
     func save() {
