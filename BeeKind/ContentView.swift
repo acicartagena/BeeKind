@@ -44,7 +44,7 @@ struct ContentView: View {
                 Text("Bee Kind")
                     .font(.largeTitle)
                     .padding()
-                Button("Add item") {
+                Button("Add Honey") {
                     self.isAddItemScreenPresented.toggle()
                 }.sheet(isPresented: $isAddItemScreenPresented) {
                     AddItemScreenView(date: Date(), localStoring: localStorage, tag: localStorage.defaultTag, isPresented: $isAddItemScreenPresented)
@@ -53,9 +53,9 @@ struct ContentView: View {
                 ScrollView {
                     LazyVStack {
                         HStack {
-                            Text("Tags")
+                            Text("Honeycombs")
                                 .font(.headline)
-                            Button("Add tag") {
+                            Button("Add honeycomb") {
                                 self.isAddTagScreenPresented.toggle()
                             }.sheet(isPresented: $isAddTagScreenPresented) {
                                 AddTagScreenView(localStoring: localStorage, isPresented: $isAddTagScreenPresented)

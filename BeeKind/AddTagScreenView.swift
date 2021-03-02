@@ -79,12 +79,13 @@ struct AddTagScreenView: View {
                     Button("Save") {
                         save()
                     }
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(availableGradients[currentGradientIndex].colors.first)
                     .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                     .background(Color.white)
-                    .cornerRadius(16)
+                    .cornerRadius(28)
                     .font(.title3)
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
+                    .shadow(radius: 0.8)
                     Spacer()
                 }.padding()
             }

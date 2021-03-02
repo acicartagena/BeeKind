@@ -129,9 +129,15 @@ struct AddItemScreenView: View {
             }
             if showTagPicker {
                 ZStack {
-                    Color.black.opacity(0.7).edgesIgnoringSafeArea(.all)
+                    Color.black.opacity(0.8).edgesIgnoringSafeArea(.all)
                     VStack {
                         Spacer()
+                        Text("Select Honeycomb")
+                            .foregroundColor(.white)
+                            .font(.largeTitle)
+                            .bold()
+                            .italic()
+                            .padding()
                         ForEach(0 ..< viewModel.tags.count) { index in
                             Button {
                                 showTagPicker = false
@@ -151,6 +157,10 @@ struct AddItemScreenView: View {
                             }
                             .padding()
                         }
+                        Button("Cancel") {
+                            showTagPicker = false
+                        }.foregroundColor(.white)
+                        .padding()
                         Spacer()
                     }
                 }
@@ -160,9 +170,6 @@ struct AddItemScreenView: View {
         .alert(isPresented: $showError) {
             return Alert(title: Text(error ?? "Something went wrong"), dismissButton: .default(Text("okies")))
         }
-//        .sheet(isPresented: $showTagPicker) {
-//            return SelectTagScreenView(localStorage: localStoring, isPresented: $showTagPicker)
-//        }
     }
 
     func save() {

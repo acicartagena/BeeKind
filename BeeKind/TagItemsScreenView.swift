@@ -43,7 +43,7 @@ struct TagItemsScreenView: View {
                 .italic()
                 .shadow(radius: 0.8)
                 .padding()
-            Button("Add item") {
+            Button("Add honey") {
                 self.isAddItemScreenPresented.toggle()
             }.sheet(isPresented: $isAddItemScreenPresented) {
                 AddItemScreenView(date: Date(), localStoring: localStorage, tag: tag, isPresented: $isAddItemScreenPresented)
