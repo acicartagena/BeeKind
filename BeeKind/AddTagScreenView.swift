@@ -95,7 +95,7 @@ struct AddTagScreenView: View {
     }
 
     func save() {
-        switch localStoring.saveTag(text: tagPromptText, isDefault: isDefault, defaultGradient: availableGradients[currentGradientIndex]) {
+        switch localStoring.createTag(text: tagPromptText, isDefault: isDefault, defaultGradient: availableGradients[currentGradientIndex]) {
         case .success: isPresented = false
         case .failure(let saveError):
             showError = true

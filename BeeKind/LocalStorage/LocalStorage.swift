@@ -17,8 +17,10 @@ protocol LocalStoring {
     var tagsPublisher: AnyPublisher<[Tag], LocalStorageError> { get }
     func tags() -> Result<[Tag], Error>
     func items(for tag: Tag) -> AnyPublisher<[Item], LocalStorageError>
-    func saveItem(text: String, on date: Date, gradient: GradientOption, tag: Tag) -> Result<Void, Error>
-    func saveTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error>
+    func createItem(text: String, on date: Date, gradient: GradientOption, tag: Tag) -> Result<Void, Error>
+    func update(item: Item, text: String, gradient: GradientOption) -> Result<Void, Error>
+    func createTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error>
+    func update(tag: Tag, text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error>
 }
 
 extension Gradient: GradientOption {
@@ -72,12 +74,12 @@ class LocalStorage: LocalStoring, ObservableObject {
             .eraseToAnyPublisher()
     }
 
-    func saveItem(text: String, on date: Date, gradient: GradientOption, tag: Tag) -> Result<Void, Error> {
+    func createItem(text: String, on date: Date, gradient: GradientOption, tag: Tag) -> Result<Void, Error> {
         do {
             let context = persistenceController.viewContext
             let gradientEntity = Gradient.gradient(from: gradient, context: context)
             print("saveItem: gradient: \(gradientEntity)")
-            try persistenceController.viewContext.createItem(text: text, created: date, gradient: gradientEntity, tag: tag)
+            try context.createItem(text: text, created: date, gradient: gradientEntity, tag: tag)
             return . success(())
         } catch {
             assertionFailure(error.localizedDescription)
@@ -85,7 +87,19 @@ class LocalStorage: LocalStoring, ObservableObject {
         }
     }
 
-    func saveTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error> {
+    func update(item: Item, text: String, gradient: GradientOption) -> Result<Void, Error> {
+        do {
+            let context = persistenceController.viewContext
+            let gradientEntity = Gradient.gradient(from: gradient, context: context)
+            try context.update(item: item, text: text, gradient: gradientEntity)
+            return . success(())
+        } catch {
+            assertionFailure(error.localizedDescription)
+            return .failure(error)
+        }
+    }
+
+    func createTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error> {
         do {
             let context = persistenceController.viewContext
             let gradient = Gradient.gradient(from: defaultGradient, context: context)
@@ -94,6 +108,21 @@ class LocalStorage: LocalStoring, ObservableObject {
                 defaultTag = tag
             }
             return . success(())
+        } catch {
+            assertionFailure(error.localizedDescription)
+            return .failure(error)
+        }
+    }
+
+    func update(tag: Tag, text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error> {
+        do {
+            let context = persistenceController.viewContext
+            let gradient = Gradient.gradient(from: defaultGradient, context: context)
+            try context.update(tag: tag, text: text, defaultGradient: gradient)
+            if isDefault {
+                defaultTag = tag
+            }
+            return .success(())
         } catch {
             assertionFailure(error.localizedDescription)
             return .failure(error)

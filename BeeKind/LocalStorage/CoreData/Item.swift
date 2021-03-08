@@ -36,4 +36,10 @@ extension NSManagedObjectContext {
         try performSave()
         return item
     }
+
+    func update(item: Item, text: String, gradient: Gradient) throws {
+        item.text = text
+        item.gradient = gradient
+        try performSave()
+    }
 }
