@@ -25,9 +25,11 @@ class TagItemsViewModel: ObservableObject {
 struct TagItemsScreenView: View {
 
     @ObservedObject private var viewModel: TagItemsViewModel
-    @State private var isAddItemScreenPresented = false
+    @State private var isAddOrUpdateItemScreenPresented = false
+    @State private var selectedItem: Item? = nil
     private let localStorage: LocalStoring
     private let tag: Tag
+
 
     init(localStorage: LocalStoring, tag: Tag) {
         self.tag = tag
@@ -44,22 +46,33 @@ struct TagItemsScreenView: View {
                 .shadow(radius: 0.8)
                 .padding()
             Button("Add honey") {
-                self.isAddItemScreenPresented.toggle()
-            }.sheet(isPresented: $isAddItemScreenPresented) {
-                AddItemScreenView(date: Date(), localStoring: localStorage, tag: tag, isPresented: $isAddItemScreenPresented)
+                self.isAddOrUpdateItemScreenPresented.toggle()
+                selectedItem = nil
             }
         }
         ScrollView {
             LazyVStack {
                 ForEach(viewModel.items, id:\.id) { item in
-                    Text("\(item.text)")
-                        .font(.title)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding()
-                        .background(item.gradient.gradient)
-                        .cornerRadius(12.0)
-                        .padding(.horizontal, 10)
+                    Button {
+                        self.isAddOrUpdateItemScreenPresented.toggle()
+                        selectedItem = item
+                    } label: {
+                        Text("\(item.text)")
+                            .font(.title)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding()
+                    .background(item.gradient.gradient)
+                    .cornerRadius(12.0)
+                    .padding(.horizontal, 10)
                 }
+            }
+        }
+        .sheet(isPresented: $isAddOrUpdateItemScreenPresented) {
+            if selectedItem != nil {
+                AddItemScreenView(mode: .update(selectedItem!), localStoring: localStorage, isPresented: $isAddOrUpdateItemScreenPresented)
+            } else {
+                AddItemScreenView(mode: .add(tag: tag, date: Date()), localStoring: localStorage, isPresented: $isAddOrUpdateItemScreenPresented)
             }
         }
     }

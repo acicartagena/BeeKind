@@ -92,6 +92,7 @@ class LocalStorage: LocalStoring, ObservableObject {
             let context = persistenceController.viewContext
             let gradientEntity = Gradient.gradient(from: gradient, context: context)
             try context.update(item: item, text: text, gradient: gradientEntity)
+            context.refresh(item, mergeChanges: false)
             return . success(())
         } catch {
             assertionFailure(error.localizedDescription)

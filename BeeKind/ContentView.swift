@@ -47,7 +47,7 @@ struct ContentView: View {
                 Button("Add Honey") {
                     self.isAddItemScreenPresented.toggle()
                 }.sheet(isPresented: $isAddItemScreenPresented) {
-                    AddItemScreenView(date: Date(), localStoring: localStorage, tag: localStorage.defaultTag, isPresented: $isAddItemScreenPresented)
+                    AddItemScreenView(mode: .add(tag: localStorage.defaultTag, date: Date()), localStoring: localStorage, isPresented: $isAddItemScreenPresented)
                 }
                 .padding()
                 ScrollView {

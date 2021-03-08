@@ -28,45 +28,66 @@ class AddItemViewModel: ObservableObject {
 }
 
 struct AddItemScreenView: View {
-    let availableGradients: [GradientOption] = TemplateGradients.availableGradients
-    @State var currentGradientIndex: Int = 0
-    var currentGradient: LinearGradient {
+    enum Mode {
+        case add(tag: Tag, date: Date)
+        case update(Item)
+    }
+
+    private let availableGradients: [GradientOption] = TemplateGradients.availableGradients
+    @State private var currentGradientIndex: Int = 0
+    private var currentGradient: LinearGradient {
         availableGradients[currentGradientIndex].gradient
     }
 
-    @State var itemText: String = ""
-    var itemTextMaxCharacters = 140
-    var itemTextRemainingCharacters: String {
+    @State private var itemText: String = ""
+    private var itemTextMaxCharacters = 140
+    private var itemTextRemainingCharacters: String {
         "\(itemTextMaxCharacters - itemText.count)/\(itemTextMaxCharacters)"
     }
 
-    let date: Date
-    let dateString: String
-    let localStoring: LocalStoring
+    private let date: Date
+    private var dateString: String
+    private let localStoring: LocalStoring
 
-    @State var error: String?
-    @State var showError: Bool = false
-    @Binding var isPresented: Bool
-    @State var showTagPicker: Bool = false
+    private let mode: Mode
+
+    @State private var error: String?
+    @State private var showError: Bool = false
+    @Binding private var isPresented: Bool
+    @State private var showTagPicker: Bool = false
 
     @ObservedObject private var viewModel: AddItemViewModel
-    @State var tagSelection: Int = 0
+    @State private var tagSelection: Int = 0
 
-    @State var tag: Tag
+    @State private var tag: Tag
 
-    init(date: Date, localStoring: LocalStoring, tag: Tag, isPresented: Binding<Bool>) {
-        self.date = date
+    init(mode: Mode, localStoring: LocalStoring, isPresented: Binding<Bool>) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
-        let string = dateFormatter.string(from: date)
-        print("date: \(string)")
-        self.dateString = string
+
         self.localStoring = localStoring
         _isPresented = isPresented
         viewModel = AddItemViewModel(localStorage: localStoring)
-        _tag = State(initialValue: tag)
-        if let index = availableGradients.firstIndex(where: { $0.name.lowercased() == tag.defaultGradient.name.lowercased() })  {
-            _currentGradientIndex = State(initialValue: index)
+        self.mode = mode
+        switch mode {
+        case .update(let item):
+            _tag = State(initialValue: item.tag)
+            if let index = availableGradients.firstIndex(where: { $0.name.lowercased() == item.tag.defaultGradient.name.lowercased() })  {
+                _currentGradientIndex = State(initialValue: index)
+            }
+            self.date = item.created
+            let string = dateFormatter.string(from: date)
+            self.dateString = string
+            _itemText = State(initialValue: item.text)
+            self.dateString = dateFormatter.string(from: item.created)
+        case .add(let tag, let date):
+            _tag = State(initialValue: tag)
+            self.date = date
+            let string = dateFormatter.string(from: date)
+            self.dateString = string
+            if let index = availableGradients.firstIndex(where: { $0.name.lowercased() == tag.defaultGradient.name.lowercased() })  {
+                _currentGradientIndex = State(initialValue: index)
+            }
         }
     }
 
@@ -173,7 +194,23 @@ struct AddItemScreenView: View {
     }
 
     func save() {
+        switch mode {
+        case .add: createItem()
+        case .update(let item): update(item: item)
+        }
+    }
+
+    func createItem() {
         switch localStoring.createItem(text: itemText, on: date, gradient: availableGradients[currentGradientIndex], tag: tag) {
+        case .success: isPresented = false
+        case .failure(let saveError):
+            showError = true
+            error = saveError.localizedDescription
+        }
+    }
+
+    func update(item: Item) {
+        switch localStoring.update(item: item, text: itemText, gradient: availableGradients[currentGradientIndex]) {
         case .success: isPresented = false
         case .failure(let saveError):
             showError = true
