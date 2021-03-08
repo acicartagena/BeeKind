@@ -64,6 +64,7 @@ class LocalStorage: LocalStoring, ObservableObject {
 
         // initialise tag
         defaultTag = Tag.defaultTag(with: userDefaults.object(forKey: defaultTagIdKey) as? String, context: persistenceController.viewContext)
+        userDefaults.setValue(defaultTag.id.uuidString, forKey: defaultTagIdKey)
 
         let initialTags: [Tag] = (try? persistenceController.viewContext.performFetch(Tag.createFetchRequest())) ?? []
         let initialTagsPublisher = Just(initialTags)
