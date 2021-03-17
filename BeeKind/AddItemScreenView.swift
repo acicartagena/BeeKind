@@ -78,7 +78,7 @@ struct AddItemScreenView: View {
         switch mode {
         case .update(let item):
             _tag = State(initialValue: item.tag)
-            if let index = availableGradients.firstIndex(where: { $0.name.lowercased() == item.tag.defaultGradient.name.lowercased() })  {
+            if let index = availableGradients.firstIndex(where: { $0.name.lowercased() == item.gradient.name.lowercased() })  {
                 _currentGradientIndex = State(initialValue: index)
             }
             self.date = item.created
