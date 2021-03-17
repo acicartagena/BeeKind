@@ -28,7 +28,14 @@ class AddItemViewModel: ObservableObject {
 }
 
 struct AddItemScreenView: View {
-    enum Mode {
+    enum Mode: Identifiable {
+        var id: String {
+            switch self {
+            case let .add(tag, date): return "add:\(tag.text)+\(date)"
+            case let .update(item): return "update:\(item.text)"
+            }
+        }
+
         case add(tag: Tag, date: Date)
         case update(Item)
     }
@@ -53,7 +60,7 @@ struct AddItemScreenView: View {
 
     @State private var error: String?
     @State private var showError: Bool = false
-    @Binding private var isPresented: Bool
+    @Environment(\.presentationMode) var presentationMode
     @State private var showTagPicker: Bool = false
 
     @ObservedObject private var viewModel: AddItemViewModel
@@ -61,12 +68,11 @@ struct AddItemScreenView: View {
 
     @State private var tag: Tag
 
-    init(mode: Mode, localStoring: LocalStoring, isPresented: Binding<Bool>) {
+    init(mode: Mode, localStoring: LocalStoring) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .medium
 
         self.localStoring = localStoring
-        _isPresented = isPresented
         viewModel = AddItemViewModel(localStorage: localStoring)
         self.mode = mode
         switch mode {
@@ -202,7 +208,7 @@ struct AddItemScreenView: View {
 
     func createItem() {
         switch localStoring.createItem(text: itemText, on: date, gradient: availableGradients[currentGradientIndex], tag: tag) {
-        case .success: isPresented = false
+        case .success: presentationMode.wrappedValue.dismiss()
         case .failure(let saveError):
             showError = true
             error = saveError.localizedDescription
@@ -211,7 +217,7 @@ struct AddItemScreenView: View {
 
     func update(item: Item) {
         switch localStoring.update(item: item, text: itemText, gradient: availableGradients[currentGradientIndex]) {
-        case .success: isPresented = false
+        case .success: presentationMode.wrappedValue.dismiss()
         case .failure(let saveError):
             showError = true
             error = saveError.localizedDescription

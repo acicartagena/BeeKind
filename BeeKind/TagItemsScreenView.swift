@@ -26,7 +26,7 @@ struct TagItemsScreenView: View {
 
     @ObservedObject private var viewModel: TagItemsViewModel
     @State private var isAddOrUpdateItemScreenPresented = false
-    @State private var selectedItem: Item? = nil
+    @State private var selectedItemMode: AddItemScreenView.Mode? = nil
     private let localStorage: LocalStoring
     private let tag: Tag
 
@@ -46,16 +46,15 @@ struct TagItemsScreenView: View {
                 .shadow(radius: 0.8)
                 .padding()
             Button("Add honey") {
-                self.isAddOrUpdateItemScreenPresented.toggle()
-                selectedItem = nil
+                addHoney()
             }
         }
+
         ScrollView {
             LazyVStack {
                 ForEach(viewModel.items, id:\.id) { item in
                     Button {
-                        self.isAddOrUpdateItemScreenPresented.toggle()
-                        selectedItem = item
+                        self.select(item: item)
                     } label: {
                         Text("\(item.text)")
                             .font(.title)
@@ -65,16 +64,25 @@ struct TagItemsScreenView: View {
                     .background(item.gradient.gradient)
                     .cornerRadius(12.0)
                     .padding(.horizontal, 10)
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
         }
-        .sheet(isPresented: $isAddOrUpdateItemScreenPresented) {
-            if selectedItem != nil {
-                AddItemScreenView(mode: .update(selectedItem!), localStoring: localStorage, isPresented: $isAddOrUpdateItemScreenPresented)
-            } else {
-                AddItemScreenView(mode: .add(tag: tag, date: Date()), localStoring: localStorage, isPresented: $isAddOrUpdateItemScreenPresented)
-            }
+        .sheet(item: $selectedItemMode) { mode in
+            AddItemScreenView(mode: mode, localStoring: localStorage)
         }
+    }
+
+    func addHoney() {
+        selectedItemMode = .add(tag: tag, date: Date())
+        print("selectedItem2: \(selectedItemMode)")
+        self.isAddOrUpdateItemScreenPresented.toggle()
+    }
+
+    func select(item: Item) {
+        selectedItemMode = .update(item)
+        print("selectedItem1: \(selectedItemMode)")
+        isAddOrUpdateItemScreenPresented.toggle()
     }
 }
 //

@@ -28,7 +28,7 @@ class ContentViewModel: ObservableObject {
 
 struct ContentView: View {
 
-    @State private var isAddItemScreenPresented = false
+    @State private var addItemMode: AddItemScreenView.Mode?
     @State private var isAddTagScreenPresented = false
     private let localStorage: LocalStoring
     @ObservedObject private var viewModel: ContentViewModel
@@ -45,9 +45,9 @@ struct ContentView: View {
                     .font(.largeTitle)
                     .padding()
                 Button("Add Honey") {
-                    self.isAddItemScreenPresented.toggle()
-                }.sheet(isPresented: $isAddItemScreenPresented) {
-                    AddItemScreenView(mode: .add(tag: localStorage.defaultTag, date: Date()), localStoring: localStorage, isPresented: $isAddItemScreenPresented)
+                    addItemMode = .add(tag: localStorage.defaultTag, date: Date())
+                }.sheet(item: $addItemMode) { mode in
+                    AddItemScreenView(mode: mode, localStoring: localStorage)
                 }
                 .padding()
                 ScrollView {
