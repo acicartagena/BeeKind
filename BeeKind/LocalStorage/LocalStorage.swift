@@ -133,7 +133,7 @@ class LocalStorage: LocalStoring, ObservableObject {
 
     func items(for tag: Tag) -> AnyPublisher<[Item], LocalStorageError> {
         let fetchgRequest = Item.createFetchRequest()
-        fetchgRequest.predicate = NSPredicate(format: "%K = %@", argumentArray: [#keyPath(Item.tag.text), tag.text])
+        fetchgRequest.predicate = NSPredicate(format: "%K = %@", argumentArray: [#keyPath(Item.tag.id), tag.id as CVarArg])
 
         let updatedItems: AnyPublisher<[Item], LocalStorageError> = notificationPublisher
             .filter { $0.containsChanges(of: Item.self) }
