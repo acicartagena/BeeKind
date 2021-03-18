@@ -58,7 +58,7 @@ struct ContentView: View {
                             Button("Add honeycomb") {
                                 self.isAddTagScreenPresented.toggle()
                             }.sheet(isPresented: $isAddTagScreenPresented) {
-                                AddTagScreenView(localStoring: localStorage, isPresented: $isAddTagScreenPresented)
+                                AddTagScreenView(mode: .add, localStoring: localStorage)
                             }
                             .padding()
                         }

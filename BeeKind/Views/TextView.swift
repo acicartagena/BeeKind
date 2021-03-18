@@ -19,6 +19,7 @@ struct TextView: UIViewRepresentable {
         uiView.layer.masksToBounds = true
         uiView.layer.cornerRadius = 16.0
         uiView.delegate = context.coordinator
+        uiView.text = text
         return uiView
     }
 

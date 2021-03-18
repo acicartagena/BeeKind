@@ -23,13 +23,18 @@ class TagItemsViewModel: ObservableObject {
 }
 
 struct TagItemsScreenView: View {
+    enum Sheet: String, Identifiable {
+        var id: String { rawValue }
 
+        case addEditItem
+        case editTag
+    }
     @ObservedObject private var viewModel: TagItemsViewModel
     @State private var isAddOrUpdateItemScreenPresented = false
+    @State private var presentSheet: Sheet? = nil
     @State private var selectedItemMode: AddItemScreenView.Mode? = nil
     private let localStorage: LocalStoring
     private let tag: Tag
-
 
     init(localStorage: LocalStoring, tag: Tag) {
         self.tag = tag
@@ -48,41 +53,46 @@ struct TagItemsScreenView: View {
             Button("Add honey") {
                 addHoney()
             }
-        }
-
-        ScrollView {
-            LazyVStack {
-                ForEach(viewModel.items, id:\.id) { item in
-                    Button {
-                        self.select(item: item)
-                    } label: {
-                        Text("\(item.text)")
-                            .font(.title)
+            ScrollView {
+                LazyVStack {
+                    ForEach(viewModel.items, id:\.id) { item in
+                        Button {
+                            self.select(item: item)
+                        } label: {
+                            Text("\(item.text)")
+                                .font(.title)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .background(item.gradient.gradient)
+                        .cornerRadius(12.0)
+                        .padding(.horizontal, 10)
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                    .background(item.gradient.gradient)
-                    .cornerRadius(12.0)
-                    .padding(.horizontal, 10)
-                    .buttonStyle(PlainButtonStyle())
                 }
             }
+
         }
-        .sheet(item: $selectedItemMode) { mode in
-            AddItemScreenView(mode: mode, localStoring: localStorage)
+        .sheet(item: $presentSheet) { sheet in
+            if sheet == .addEditItem {
+                AddItemScreenView(mode: selectedItemMode!, localStoring: localStorage)
+            } else {
+                AddTagScreenView(mode: .update(tag), localStoring: localStorage)
+            }
         }
+        .navigationBarItems(trailing: Button("Edit Honeycomb", action: {
+            presentSheet = .editTag
+        }))
     }
 
     func addHoney() {
+        presentSheet = .addEditItem
         selectedItemMode = .add(tag: tag, date: Date())
-        print("selectedItem2: \(selectedItemMode)")
-        self.isAddOrUpdateItemScreenPresented.toggle()
     }
 
     func select(item: Item) {
+        presentSheet = .addEditItem
         selectedItemMode = .update(item)
-        print("selectedItem1: \(selectedItemMode)")
-        isAddOrUpdateItemScreenPresented.toggle()
     }
 }
 //

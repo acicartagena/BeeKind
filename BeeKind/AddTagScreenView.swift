@@ -4,6 +4,18 @@ import Foundation
 import SwiftUI
 
 struct AddTagScreenView: View {
+    enum Mode: Identifiable {
+        var id: String {
+            switch self {
+            case .add: return "add"
+            case let .update(tag): return "update:\(tag.text)"
+            }
+        }
+
+        case add
+        case update(Tag)
+    }
+
     let availableGradients: [GradientOption] = TemplateGradients.availableGradients
     @State var currentGradientIndex: Int = 0
     var currentGradient: LinearGradient {
@@ -20,13 +32,24 @@ struct AddTagScreenView: View {
 
     @State var error: String?
     @Binding var showError: Bool
-    @Binding var isPresented: Bool
     @State var isDefault = false
+    @Environment(\.presentationMode) var presentationMode
 
-    init(localStoring: LocalStoring, isPresented: Binding<Bool>) {
+    private let mode: Mode
+
+    init(mode: Mode, localStoring: LocalStoring) {
         self.localStoring = localStoring
-        _isPresented = isPresented
         _showError = .constant(false)
+        self.mode = mode
+        switch mode {
+        case .update(let tag):
+            if let index = availableGradients.firstIndex(where: { $0.name.lowercased() == tag.defaultGradient.name.lowercased() })  {
+                _currentGradientIndex = State(initialValue: index)
+            }
+            _tagPromptText = State(initialValue: tag.text)
+            _isDefault = State(initialValue: localStoring.defaultTag == tag)
+        case .add: break
+        }
     }
 
     var body: some View {
@@ -96,7 +119,7 @@ struct AddTagScreenView: View {
 
     func save() {
         switch localStoring.createTag(text: tagPromptText, isDefault: isDefault, defaultGradient: availableGradients[currentGradientIndex]) {
-        case .success: isPresented = false
+        case .success: presentationMode.wrappedValue.dismiss()
         case .failure(let saveError):
             showError = true
             error = saveError.localizedDescription
@@ -115,6 +138,6 @@ struct AddTagScreenView: View {
 
 struct AddTagScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        AddTagScreenView(localStoring: LocalStorage.preview, isPresented: .constant(true))
+        AddTagScreenView(mode: .add, localStoring: LocalStorage.preview)
     }
 }
