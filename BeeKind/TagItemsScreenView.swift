@@ -23,12 +23,23 @@ class TagItemsViewModel: ObservableObject {
 }
 
 struct TagItemsScreenView: View {
-    enum Sheet: String, Identifiable {
-        var id: String { rawValue }
+    enum Sheet: Identifiable {
+        var id: String {
+            switch self {
+            case .addEditItem: return "addEditItem"
+            case .editTag: return "editTag"
+            }
+        }
 
-        case addEditItem
+        case addEditItem(AddItemScreenView.Mode)
         case editTag
+
+        var addEditItemMode: AddItemScreenView.Mode? {
+            guard case let .addEditItem(mode) = self else { return nil }
+            return mode
+        }
     }
+
     @ObservedObject private var viewModel: TagItemsViewModel
     @State private var isAddOrUpdateItemScreenPresented = false
     @State private var presentSheet: Sheet? = nil
@@ -57,16 +68,16 @@ struct TagItemsScreenView: View {
                 LazyVStack {
                     ForEach(viewModel.items, id:\.id) { item in
                         Button {
-                            self.select(item: item)
+                            select(item: item)
                         } label: {
                             Text("\(item.text)")
                                 .font(.title)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding()
+                                .background(item.gradient.gradient)
+                                .cornerRadius(12.0)
+                                .padding(.horizontal, 10)
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding()
-                        .background(item.gradient.gradient)
-                        .cornerRadius(12.0)
-                        .padding(.horizontal, 10)
                         .buttonStyle(PlainButtonStyle())
                     }
                 }
@@ -74,8 +85,8 @@ struct TagItemsScreenView: View {
 
         }
         .sheet(item: $presentSheet) { sheet in
-            if sheet == .addEditItem {
-                AddItemScreenView(mode: selectedItemMode!, localStoring: localStorage)
+            if sheet.id == "addEditItem" {
+                AddItemScreenView(mode: sheet.addEditItemMode!, localStoring: localStorage)
             } else {
                 AddTagScreenView(mode: .update(tag), localStoring: localStorage)
             }
@@ -86,13 +97,15 @@ struct TagItemsScreenView: View {
     }
 
     func addHoney() {
-        presentSheet = .addEditItem
-        selectedItemMode = .add(tag: tag, date: Date())
+        presentSheet = .addEditItem(.add(tag: tag, date: Date()))
     }
 
     func select(item: Item) {
-        presentSheet = .addEditItem
-        selectedItemMode = .update(item)
+        presentSheet = .addEditItem(.update(item))
+    }
+
+    func delete(at offsets: IndexSet) {
+        print("delete: \(offsets)")
     }
 }
 //

@@ -36,6 +36,7 @@ struct AddTagScreenView: View {
     @Environment(\.presentationMode) var presentationMode
 
     private let mode: Mode
+    @State var showDeleteButton: Bool = false
 
     init(mode: Mode, localStoring: LocalStoring) {
         self.localStoring = localStoring
@@ -48,6 +49,7 @@ struct AddTagScreenView: View {
             }
             _tagPromptText = State(initialValue: tag.text)
             _isDefault = State(initialValue: localStoring.defaultTag == tag)
+            _showDeleteButton = State(initialValue: true)
         case .add: break
         }
     }
@@ -99,16 +101,31 @@ struct AddTagScreenView: View {
                 Spacer()
                 HStack {
                     Spacer()
+                    if showDeleteButton {
+                        Button("Delete") {
+                            delete()
+                        }
+                        .frame(minWidth: 0, maxWidth: .infinity)
+                        .foregroundColor(Color.white)
+                        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                        .background(availableGradients[currentGradientIndex].colors.first)
+                        .cornerRadius(28)
+                        .font(.title3)
+                        .shadow(radius: 0.8)
+                        .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
+                    }
                     Button("Save") {
                         save()
                     }
+                    .frame(minWidth: 0, maxWidth: .infinity)
                     .foregroundColor(availableGradients[currentGradientIndex].colors.first)
                     .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                     .background(Color.white)
                     .cornerRadius(28)
                     .font(.title3)
-                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
                     .shadow(radius: 0.8)
+                    .padding(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 8))
+
                     Spacer()
                 }.padding()
             }
@@ -118,7 +135,31 @@ struct AddTagScreenView: View {
     }
 
     func save() {
-        switch localStoring.createTag(text: tagPromptText, isDefault: isDefault, defaultGradient: availableGradients[currentGradientIndex]) {
+        switch mode {
+        case .add: addTag()
+        case .update(let tag): update(tag: tag)
+        }
+
+    }
+
+    func addTag() {
+        let result = localStoring.createTag(text: tagPromptText, isDefault: isDefault, defaultGradient: availableGradients[currentGradientIndex])
+        handleOperation(result: result)
+    }
+
+    func update(tag: Tag) {
+        let result = localStoring.update(tag: tag, text: tagPromptText, isDefault: isDefault, defaultGradient: availableGradients[currentGradientIndex])
+        handleOperation(result: result)
+    }
+
+    func delete() {
+        guard case let .update(tag) = mode else { return }
+        let result = localStoring.delete(tag: tag)
+        handleOperation(result: result)
+    }
+
+    func handleOperation(result: Result<Void, Error>) {
+        switch result {
         case .success: presentationMode.wrappedValue.dismiss()
         case .failure(let saveError):
             showError = true

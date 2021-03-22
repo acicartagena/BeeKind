@@ -21,6 +21,7 @@ protocol LocalStoring {
     func update(item: Item, text: String, gradient: GradientOption) -> Result<Void, Error>
     func createTag(text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error>
     func update(tag: Tag, text: String, isDefault: Bool, defaultGradient: GradientOption) -> Result<Void, Error>
+    func delete(tag: Tag) -> Result<Void, Error>
 }
 
 extension Gradient: GradientOption {
@@ -124,6 +125,17 @@ class LocalStorage: LocalStoring, ObservableObject {
             if isDefault {
                 defaultTag = tag
             }
+            return .success(())
+        } catch {
+            assertionFailure(error.localizedDescription)
+            return .failure(error)
+        }
+    }
+
+    func delete(tag: Tag) -> Result<Void, Error> {
+        do {
+            let context = persistenceController.viewContext
+            try context.performDelete(tag)
             return .success(())
         } catch {
             assertionFailure(error.localizedDescription)
