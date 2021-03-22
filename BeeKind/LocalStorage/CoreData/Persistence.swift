@@ -60,7 +60,6 @@ extension NSManagedObjectContext {
     }
 
     func performDelete<T: NSManagedObject>(_ object: T) throws {
-        guard hasChanges else { return }
         var saveError: Error?
         performAndWait { [self] in
             do {
