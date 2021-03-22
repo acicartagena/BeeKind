@@ -42,7 +42,10 @@ struct AddItemScreenView: View {
 
     private let availableGradients: [GradientOption] = TemplateGradients.availableGradients
     @State private var currentGradientIndex: Int = 0
-    private var currentGradient: LinearGradient {
+    private var currentGradient: GradientOption {
+        availableGradients[currentGradientIndex]
+    }
+    private var currentLinearGradient: LinearGradient {
         availableGradients[currentGradientIndex].gradient
     }
 
@@ -67,6 +70,7 @@ struct AddItemScreenView: View {
     @State private var tagSelection: Int = 0
 
     @State private var tag: Tag
+    @State private var showDeleteButton: Bool = false
 
     init(mode: Mode, localStoring: LocalStoring) {
         let dateFormatter = DateFormatter()
@@ -86,6 +90,7 @@ struct AddItemScreenView: View {
             self.dateString = string
             _itemText = State(initialValue: item.text)
             self.dateString = dateFormatter.string(from: item.created)
+            _showDeleteButton = State(initialValue: true)
         case .add(let tag, let date):
             _tag = State(initialValue: tag)
             self.date = date
@@ -99,14 +104,14 @@ struct AddItemScreenView: View {
 
     var body: some View {
         ZStack {
-            currentGradient
+            currentLinearGradient
                 .edgesIgnoringSafeArea(.all)
             VStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
                 Button {
                     showTagPicker = true
                 } label: {
                     Text(tag.text)
-                        .foregroundColor(Color(hex:tag.defaultGradient.endColor))
+                        .foregroundColor(currentGradient.endColor)
                         .font(.largeTitle)
                         .bold()
                         .italic()
@@ -134,11 +139,24 @@ struct AddItemScreenView: View {
                         TextView(text: $itemText, maxCharacterCount: itemTextMaxCharacters)
                             .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
                         HStack {
+                            if showDeleteButton {
+                                Button("Delete") {
+                                    delete()
+                                }
+                                .foregroundColor(Color.white)
+                                .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
+                                .background(currentGradient.endColor)
+                                .cornerRadius(28)
+                                .font(.title3)
+                                .padding(EdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 0))
+                                .shadow(radius: 0.8)
+                            }
+
                             Spacer()
                             Button("Save") {
                                 save()
                             }
-                            .foregroundColor(Color(hex:tag.defaultGradient.endColor))
+                            .foregroundColor(currentGradient.endColor)
                             .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
                             .background(Color.white)
                             .cornerRadius(28)
@@ -150,7 +168,7 @@ struct AddItemScreenView: View {
                 }
                 .padding()
                 Button("", action: changeCurrentGradient)
-                    .buttonStyle(HexagonGradientButtonStyle(currentGradient: currentGradient))
+                    .buttonStyle(HexagonGradientButtonStyle(currentGradient: currentLinearGradient))
                     .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 20))
                 Spacer()
             }
@@ -178,7 +196,7 @@ struct AddItemScreenView: View {
                                     .padding()
                                     .font(.title3)
                                     .foregroundColor(Color.white)
-                                    .background(Color(hex: viewModel.tags[index].defaultGradient.startColor))
+                                    .background(Color(hex: viewModel.tags[index].defaultGradient.startColorHex))
                                     .cornerRadius(32.0)
 
                             }
@@ -201,22 +219,29 @@ struct AddItemScreenView: View {
 
     func save() {
         switch mode {
-        case .add: createItem()
+        case .add: addItem()
         case .update(let item): update(item: item)
         }
     }
 
-    func createItem() {
-        switch localStoring.createItem(text: itemText, on: date, gradient: availableGradients[currentGradientIndex], tag: tag) {
-        case .success: presentationMode.wrappedValue.dismiss()
-        case .failure(let saveError):
-            showError = true
-            error = saveError.localizedDescription
-        }
+    func addItem() {
+        let result = localStoring.createItem(text: itemText, on: date, gradient: availableGradients[currentGradientIndex], tag: tag)
+        handleOperation(result: result)
     }
 
     func update(item: Item) {
-        switch localStoring.update(item: item, text: itemText, gradient: availableGradients[currentGradientIndex]) {
+        let result = localStoring.update(item: item, text: itemText, gradient: availableGradients[currentGradientIndex])
+        handleOperation(result: result)
+    }
+
+    func delete() {
+        guard case let .update(tag) = mode else { return }
+        let result = localStoring.delete(tag)
+        handleOperation(result: result)
+    }
+
+    func handleOperation(result: Result<Void, Error>) {
+        switch result {
         case .success: presentationMode.wrappedValue.dismiss()
         case .failure(let saveError):
             showError = true

@@ -154,7 +154,7 @@ struct AddTagScreenView: View {
 
     func delete() {
         guard case let .update(tag) = mode else { return }
-        let result = localStoring.delete(tag: tag)
+        let result = localStoring.delete(tag)
         handleOperation(result: result)
     }
 

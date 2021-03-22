@@ -12,6 +12,8 @@ protocol GradientOption {
     var colors: [Color] { get }
     var colorHex: [Int64] { get }
     var gradient: LinearGradient { get }
+    var startColor: Color { get }
+    var endColor: Color { get }
     static var availableGradients: [GradientOption] { get }
 }
 
@@ -24,6 +26,13 @@ extension GradientOption {
 
     var gradient: LinearGradient {
         LinearGradient(gradient: SwiftUI.Gradient(colors: colors), startPoint: .topLeading, endPoint: .bottomTrailing)
+    }
+
+    var startColor: Color {
+        colors[0]
+    }
+    var endColor: Color {
+        colors[1]
     }
 }
 
@@ -92,6 +101,14 @@ enum TemplateGradients: String, CaseIterable, GradientOption {
         case .soda: return [0xFFDD00, 0xFBB034]
         case .eggsecuted: return [0x000000, 0xD2A813]
         }
+    }
+
+    var startColor: Color {
+        colors[0]
+    }
+
+    var endColor: Color {
+        colors[1]
     }
 }
 
