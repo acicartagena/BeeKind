@@ -1,0 +1,95 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Description of what the lane does"
+  lane :custom_lane do
+    # add actions here: https://docs.fastlane.tools/actions
+  end
+
+  lane :download_dev_certs do
+    match(
+      app_identifier: ["com.acicartagena.beekind"],
+      type: "development",
+      readonly:"true",
+      git_url: "https://github.com/acicartagena/ios-certificates.git"
+    )
+  end
+
+  lane :download_distr_certs do
+    match(
+      app_identifier: ["com.acicartagena.beekind"],
+      type: "adhoc",
+      readonly:"true",
+      git_url: "https://github.com/acicartagena/ios-certificates.git"
+    )
+  end
+
+  lane :update_dev_certs do
+      match(
+        app_identifier: ["com.acicartagena.beekind"],
+        type: "development",
+        readonly:"false",
+        force:"true",
+        git_url: "https://github.com/acicartagena/ios-certificates.git"
+      )
+  end
+
+  lane :update_distr_certs do
+    match(
+      app_identifier: ["com.acicartagena.beekind"],
+      type: "adhoc",
+      readonly:"false",
+      force:"true",
+      git_url: "https://github.com/acicartagena/ios-certificates.git"
+    )
+  end
+  
+
+  # desc "Gets Provisioning Certificates for Dev, Stage & Prod builds"
+  # lane :get_certs_and_profiles do
+  #   #git_url set here assumes this is run in local machine
+  #   match(
+  #     app_identifier: ["com.airtasker.iphone","com.airtasker.dev","com.airtasker.stage","com.airtasker.prod","com.airtasker.AirtaskerAPI.Example","com.airtasker.AirtaskerUITests"],
+  #     type: "development",
+  #     readonly:"true",
+  #     git_url: "https://github.com/airtasker/ios-certificates.git"
+  #   )
+  #   match(
+  #     app_identifier: ["com.airtasker.iphone","com.airtasker.dev","com.airtasker.stage","com.airtasker.prod"],
+  #     type: "adhoc",
+  #     readonly:"true",
+  #     git_url: "https://github.com/airtasker/ios-certificates.git"
+  #   )
+  #   match(
+  #     app_identifier: "com.airtasker.iphone",
+  #     type: "appstore",
+  #     readonly:"true",
+  #     git_url: "https://github.com/airtasker/ios-certificates.git"
+  #   )
+  # end
+
+  # desc "Creates new provisioning certificates for Dev, Stage & Prod builds"
+  # lane :update_beta_certs do
+  #   confirm = prompt(
+  #     text: "Are you sure you want to create new provisioning certificates for Dev, Stage & Prod Builds?",
+  #     boolean: "true"
+  #   )
+  #   if confirm
+  #     #git_url set here assumes this is run in local machine
+  #     match(
+  #       app_identifier: ["com.airtasker.iphone","com.airtasker.dev","com.airtasker.stage","com.airtasker.prod"],
+  #       type: "adhoc",
+  #       readonly:"false",
+  #       force:"true",
+  #       git_url: "https://github.com/airtasker/ios-certificates.git"
+  #     )
+  #     match(
+  #       app_identifier: ["com.airtasker.iphone","com.airtasker.dev","com.airtasker.stage","com.airtasker.prod","com.airtasker.AirtaskerAPI.Example","com.airtasker.AirtaskerUITests"],
+  #       type: "development",
+  #       readonly:"false",
+  #       force:"true",
+  #       git_url: "https://github.com/airtasker/ios-certificates.git"
+  #     )
+  #   end
+  # end
+end
